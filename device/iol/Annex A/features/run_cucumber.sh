@@ -9,6 +9,6 @@ docker run \
 	--rm \
 	--name cucumber_$(date +%s) \
 	--volume "${PWD}/../..":${WORKDIR} \
-	--workdir "${WORKDIR}/9 System Management/features" \
+	--workdir "${WORKDIR}/Annex A/features" \
 	-it $TAG \
 	bash -c "cmake . && cmake --build . && (./steps >/dev/null &) && cucumber ."

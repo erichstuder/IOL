@@ -6,7 +6,7 @@ namespace M_sequence_types {
 
 	enum class PD_representation_type { //TODO: das muss wohl an eine andere Stelle
 		bit,
-		octet
+		octets
 	};
 
 	enum class M_sequence_type {

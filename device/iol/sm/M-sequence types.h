@@ -1,4 +1,14 @@
+#include <cstdint>
+
 namespace M_sequence_types {
+	const uint8_t M_sequence_code_min = 0;
+	const uint8_t M_sequence_code_max = 7;
+
+	enum class PD_representation_type { //TODO: das muss wohl an eine andere Stelle
+		bit,
+		octet
+	};
+
 	enum class M_sequence_type {
 		TYPE_0,
 		TYPE_1_2,
@@ -11,8 +21,13 @@ namespace M_sequence_types {
 	};
 
 	typedef struct {
-		M_sequence_type expected_type;
-	} M_sequence_type_valid__parameters;
+		uint8_t M_sequence_code;
+		uint8_t On_request_Data_Octets;
+		uint8_t PDin;
+		uint8_t PDout;
+		PD_representation_type PD_representation;
+		M_sequence_type expected_M_sequence_type;
+	} OPERATE_M_sequence_type_valid__parameters;
 
-	bool M_sequence_type_valid(M_sequence_type_valid__parameters *parameters);
+	bool OPERATE_M_sequence_type_valid(OPERATE_M_sequence_type_valid__parameters *parameters);
 }

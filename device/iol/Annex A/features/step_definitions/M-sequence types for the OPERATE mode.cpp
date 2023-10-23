@@ -3,6 +3,7 @@
 
 #include "M-sequence types.h"
 #include <regex>
+#include <boost/range/irange.hpp>
 
 using std::string;
 
@@ -15,6 +16,7 @@ static struct {
 	uint8_t PDout_min;
 	uint8_t PDout_max;
 	M_sequence_types::PD_representation_type PD_representation;
+	M_sequence_types::M_sequence_type expected_M_sequence_type;
 } context;
 
 
@@ -106,38 +108,40 @@ GIVEN("^PDout: (.+)$") {
 	}
 }
 
-THEN("^M-sequence type: (.+)$") {
+GIVEN("^M-sequence type: (.+)$") {
 	REGEX_PARAM(string, data);
 
-	M_sequence_types::OPERATE_M_sequence_type_valid__parameters parameters;
-
 	if(data == "TYPE_0") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_0;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_0;
 	}
 	else if(data == "TYPE_1_2") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_1_2;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_1_2;
 	}
 	else if(data == "TYPE_1_1/1_2") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_1_1__1_2;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_1_1__1_2;
 	}
 	else if(data == "TYPE_2_1") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_1;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_1;
 	}
 	else if(data == "TYPE_2_2") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_2;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_2;
 	}
 	else if(data == "TYPE_2_3") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_3;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_3;
 	}
 	else if(data == "TYPE_2_4") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_4;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_4;
 	}
 	else if(data == "TYPE_2_5") {
-		parameters.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_5;
+		context.expected_M_sequence_type = M_sequence_types::M_sequence_type::TYPE_2_5;
 	}
 	else {
 		FAIL();
 	}
+}
+
+static void positive_test() {
+	M_sequence_types::OPERATE_M_sequence_type_valid__parameters parameters;
 
 	for(auto a = context.OPERATE_M_sequence_code_min; a <= context.OPERATE_M_sequence_code_max; a++) {
 		parameters.M_sequence_code = a;
@@ -149,8 +153,57 @@ THEN("^M-sequence type: (.+)$") {
 			for(auto c = context.PDout_min; c <= context.PDout_max; c++) {
 				parameters.PDout = c;
 				parameters.PD_representation = context.PD_representation;
-				EXPECT_TRUE( M_sequence_types::OPERATE_M_sequence_type_valid(&parameters) );
+				parameters.expected_M_sequence_type = context.expected_M_sequence_type;
+	
+				EXPECT_TRUE(OPERATE_M_sequence_type_valid(&parameters));
 			}
 		}
 	}
+}
+
+static void negative_test() {
+	M_sequence_types::OPERATE_M_sequence_type_valid__parameters parameters;
+
+	for(parameters.M_sequence_code = M_sequence_types::M_sequence_code_min;
+	    parameters.M_sequence_code <= M_sequence_types::M_sequence_code_max;
+	    parameters.M_sequence_code++) {	
+		for(parameters.On_request_Data_Octets = M_sequence_types::On_request_Data_Octets_min;
+		    parameters.On_request_Data_Octets <= M_sequence_types::On_request_Data_Octets_min;
+		    parameters.On_request_Data_Octets++) {
+			for(parameters.PDin = M_sequence_types::PDin_min;
+			    parameters.PDin <= M_sequence_types::PDin_max;
+			    parameters.PDin++) {
+				for(parameters.PDout = M_sequence_types::PDout_min;
+				    parameters.PDout <= M_sequence_types::PDout_max;
+				    parameters.PDout++) {
+					for(unsigned int a = 0; a < (unsigned int)M_sequence_types::PD_representation_type::_cnt; a++) {
+					    	parameters.PD_representation = (M_sequence_types::PD_representation_type)a;
+						for(unsigned int b = 0; b < (unsigned int)M_sequence_types::M_sequence_type::_cnt; b++) {
+							parameters.expected_M_sequence_type = (M_sequence_types::M_sequence_type)b;
+
+							bool isValidCombination = 
+								parameters.M_sequence_code >= context.OPERATE_M_sequence_code_min &&
+								parameters.M_sequence_code <= context.OPERATE_M_sequence_code_max &&
+								parameters.On_request_Data_Octets == context.On_request_Data_Octets &&
+								parameters.PDin >= context.PDin_min &&
+								parameters.PDin <= context.PDin_max &&
+								parameters.PDout >= context.PDout_min &&
+								parameters.PDout <= context.PDout_max &&
+								parameters.PD_representation == context.PD_representation &&
+								parameters.expected_M_sequence_type == context.expected_M_sequence_type;
+							
+							if(!isValidCombination) {
+								EXPECT_FALSE(OPERATE_M_sequence_type_valid(&parameters));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+THEN("^the sequence type is valid$") {
+	positive_test();
+	negative_test();
 }

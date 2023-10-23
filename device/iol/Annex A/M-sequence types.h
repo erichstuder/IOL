@@ -4,9 +4,21 @@ namespace M_sequence_types {
 	const uint8_t M_sequence_code_min = 0;
 	const uint8_t M_sequence_code_max = 7;
 
+	const uint8_t On_request_Data_Octets_min = 1;
+	const uint8_t On_request_Data_Octets_max = 2;
+
+	const uint8_t PDin_min = 0;
+	const uint8_t PDin_max = 32;
+
+	const uint8_t PDout_min = 0;
+	const uint8_t PDout_max = 32;
+
+	
+
 	enum class PD_representation_type { //TODO: das muss wohl an eine andere Stelle
 		bit,
-		octets
+		octets,
+		_cnt //use only for tests
 	};
 
 	enum class M_sequence_type {
@@ -17,7 +29,8 @@ namespace M_sequence_types {
 		TYPE_2_2,
 		TYPE_2_3,
 		TYPE_2_4,
-		TYPE_2_5
+		TYPE_2_5,
+		_cnt //use only for tests
 	};
 
 	typedef struct {

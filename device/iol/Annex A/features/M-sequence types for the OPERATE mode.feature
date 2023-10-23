@@ -5,7 +5,8 @@ Feature: M-sequence types for the OPERATE mode (legacy protocol)
 		* On-request Data Octets: <On-request Data Octets>
 		* PDin: <PDin>
 		* PDout: <PDout>
-		Then M-sequence type: <M-sequence type>
+		* M-sequence type: <M-sequence type>
+		Then the sequence type is valid
 
 	Examples:
 		| OPERATE M-sequence code | On-request Data Octets | PDin          | PDout         | M-sequence type |

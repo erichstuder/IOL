@@ -168,15 +168,15 @@ static void positive_test() {
 	}
 }
 
-// ich glaube der Negativ-Test ist nur dann sinnvoll möglich, wenn der Positiv-Test korrekt ist. Dann macht der Negativ-Test aber gar keinen Sinn mehr.
-/*static void negative_test() {
+//simple negative test that looks for at least one invalid combination
+static void negative_test() {
 	M_sequence_types::OPERATE_M_sequence_type_valid__parameters parameters;
 
 	for(parameters.M_sequence_code = M_sequence_types::M_sequence_code_min;
 	    parameters.M_sequence_code <= M_sequence_types::M_sequence_code_max;
 	    parameters.M_sequence_code++) {	
 		for(parameters.On_request_Data_Octets = M_sequence_types::On_request_Data_Octets_min;
-		    parameters.On_request_Data_Octets <= M_sequence_types::On_request_Data_Octets_min;
+		    parameters.On_request_Data_Octets <= M_sequence_types::On_request_Data_Octets_max;
 		    parameters.On_request_Data_Octets++) {
 			for(parameters.PDin = M_sequence_types::PDin_min;
 			    parameters.PDin <= M_sequence_types::PDin_max;
@@ -189,26 +189,9 @@ static void positive_test() {
 						for(unsigned int b = 0; b < (unsigned int)M_sequence_types::M_sequence_type::_cnt; b++) {
 							parameters.expected_M_sequence_type = (M_sequence_types::M_sequence_type)b;
 
-							bool isValidCombination = 
-								parameters.M_sequence_code >= context.OPERATE_M_sequence_code_min &&
-								parameters.M_sequence_code <= context.OPERATE_M_sequence_code_max &&
-								parameters.On_request_Data_Octets == context.On_request_Data_Octets &&
-								parameters.PDin >= context.PDin_min &&
-								parameters.PDin <= context.PDin_max &&
-								parameters.PDout >= context.PDout_min &&
-								parameters.PDout <= context.PDout_max &&
-								parameters.PD_representation == context.PD_representation &&
-								parameters.expected_M_sequence_type == context.expected_M_sequence_type;
-							
-							if(!isValidCombination) {
-								EXPECT_FALSE(OPERATE_M_sequence_type_valid(&parameters))
-									<< "values of 'parameters'\n"
-									<< std::to_string(parameters.M_sequence_code) << "\n"
-									<< std::to_string((int)parameters.On_request_Data_Octets) << "\n"
-									<< std::to_string(parameters.PDin) << "\n"
-									<< std::to_string(parameters.PDout) << "\n"
-									<< std::to_string((int)parameters.PD_representation) << "\n"
-									<< std::to_string((int)parameters.expected_M_sequence_type) << "\n";
+							if(OPERATE_M_sequence_type_valid(&parameters) == false) {
+								SUCCEED();
+								return;
 							}
 						}
 					}
@@ -216,9 +199,10 @@ static void positive_test() {
 			}
 		}
 	}
-}*/
+	FAIL() << "no invalid combination found";
+}
 
 THEN("^the sequence type is valid$") {
 	positive_test();
-	//negative_test();
+	negative_test();
 }

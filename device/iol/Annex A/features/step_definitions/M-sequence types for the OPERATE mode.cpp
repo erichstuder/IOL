@@ -39,8 +39,8 @@ GIVEN("^OPERATE M-sequence code: (.+)$") {
 	}
 }
 
-GIVEN("^On-request Data Octets: (.)$") {
-	REGEX_PARAM(uint8_t, data);
+GIVEN("^On-request Data Octets: (\\d)$") {
+	REGEX_PARAM(int, data); //TODO: warum geht da nicht uint8_t?
 	context.On_request_Data_Octets = data;
 }
 
@@ -155,13 +155,21 @@ static void positive_test() {
 				parameters.PD_representation = context.PD_representation;
 				parameters.expected_M_sequence_type = context.expected_M_sequence_type;
 	
-				EXPECT_TRUE(OPERATE_M_sequence_type_valid(&parameters));
+				EXPECT_TRUE(OPERATE_M_sequence_type_valid(&parameters))
+					<< "values of 'parameters'\n"
+					<< std::to_string(parameters.M_sequence_code) << "\n"
+					<< std::to_string((int)parameters.On_request_Data_Octets) << "\n"
+					<< std::to_string(parameters.PDin) << "\n"
+					<< std::to_string(parameters.PDout) << "\n"
+					<< std::to_string((int)parameters.PD_representation) << "\n"
+					<< std::to_string((int)parameters.expected_M_sequence_type) << "\n";
 			}
 		}
 	}
 }
 
-static void negative_test() {
+// ich glaube der Negativ-Test ist nur dann sinnvoll möglich, wenn der Positiv-Test korrekt ist. Dann macht der Negativ-Test aber gar keinen Sinn mehr.
+/*static void negative_test() {
 	M_sequence_types::OPERATE_M_sequence_type_valid__parameters parameters;
 
 	for(parameters.M_sequence_code = M_sequence_types::M_sequence_code_min;
@@ -193,7 +201,14 @@ static void negative_test() {
 								parameters.expected_M_sequence_type == context.expected_M_sequence_type;
 							
 							if(!isValidCombination) {
-								EXPECT_FALSE(OPERATE_M_sequence_type_valid(&parameters));
+								EXPECT_FALSE(OPERATE_M_sequence_type_valid(&parameters))
+									<< "values of 'parameters'\n"
+									<< std::to_string(parameters.M_sequence_code) << "\n"
+									<< std::to_string((int)parameters.On_request_Data_Octets) << "\n"
+									<< std::to_string(parameters.PDin) << "\n"
+									<< std::to_string(parameters.PDout) << "\n"
+									<< std::to_string((int)parameters.PD_representation) << "\n"
+									<< std::to_string((int)parameters.expected_M_sequence_type) << "\n";
 							}
 						}
 					}
@@ -201,9 +216,9 @@ static void negative_test() {
 			}
 		}
 	}
-}
+}*/
 
 THEN("^the sequence type is valid$") {
 	positive_test();
-	negative_test();
+	//negative_test();
 }

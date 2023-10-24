@@ -15,7 +15,7 @@ namespace M_sequence_types {
 
 	
 
-	enum class PD_representation_type { //TODO: das muss wohl an eine andere Stelle
+	enum class PD_representation_type {
 		bit,
 		octets,
 		_cnt //use only for tests

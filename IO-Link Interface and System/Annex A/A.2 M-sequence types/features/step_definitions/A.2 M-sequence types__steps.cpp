@@ -1,15 +1,9 @@
 #include <gtest/gtest.h>
-#include <cucumber-cpp/autodetect.hpp> //TODO: what is this good for?
+#include <cucumber-cpp/autodetect.hpp>
 
 #include "A.2 M-sequence types.h"
 #include <regex>
 #include <boost/range/irange.hpp>
-
-//#define STR_HELPER(x) #x
-//#define STR(x) STR_HELPER(x)
-//#pragma message "__COUNTER__  " STR(__COUNTER__)
-
-//sing cucumber::ScenarioScope;
 
 using std::string; //TODO: braucht es das? Wie funktioniert das genau?
 

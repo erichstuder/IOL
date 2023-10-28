@@ -1,6 +1,7 @@
+#pragma once
 #include <cstdint>
 
-namespace A_2_M_sequence_types{
+namespace A_2_M_sequence_types {
 	enum class PD_representation_type {
 		bit,
 		octets,

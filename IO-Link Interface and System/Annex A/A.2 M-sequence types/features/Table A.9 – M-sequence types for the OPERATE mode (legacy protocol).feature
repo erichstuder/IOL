@@ -1,6 +1,6 @@
 # language: en
 Feature: Table A.9 – M-sequence types for the OPERATE mode (legacy protocol)
-	Scenario Outline: M-Sequence type
+	Scenario Outline: Validation
 		Given OPERATE M-sequence code: <OPERATE M-sequence code>	
 		* On-request Data Octets: <On-request Data Octets>
 		* PDin: <PDin>

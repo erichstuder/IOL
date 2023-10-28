@@ -1,6 +1,6 @@
 # language: en
 Feature: Table A.10 – M-sequence types for the OPERATE mode
-	Scenario Outline: M-Sequence type
+	Scenario Outline: Validation
 		Given OPERATE M-sequence code: <OPERATE M-sequence code>	
 		* On-request Data Octets: <On-request Data Octets>
 		* PDin: <PDin>

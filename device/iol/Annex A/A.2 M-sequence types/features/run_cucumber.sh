@@ -8,7 +8,7 @@ docker build -t $TAG . >/dev/nul
 docker run \
 	--rm \
 	--name cucumber_$(date +%s) \
-	--volume "${PWD}/../..":${WORKDIR} \
-	--workdir "${WORKDIR}/Annex A/features" \
+	--volume "${PWD}/../../..":${WORKDIR} \
+	--workdir "${WORKDIR}/Annex A/A.2 M-sequence types/features" \
 	-it $TAG \
 	bash -c "cmake . && cmake --build . && (./steps >/dev/null &) && cucumber ."

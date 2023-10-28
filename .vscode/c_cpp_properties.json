@@ -4,8 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/temp/cucumber-cpp/build/src",
-                "${workspaceFolder}/temp/googletest/googletest/include"
+                "/tmp/IOLS/cucumber-cpp/include",
+                "/tmp/IOLS/cucumber-cpp/build/src",
+                "/tmp/IOLS/googletest/googletest/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

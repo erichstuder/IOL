@@ -1,11 +1,13 @@
 #!/bin/bash
 
-mkdir -p temp
-cd temp
+cd /tmp
+mkdir -p IOLS
+cd IOLS
 
 # get cucumber-cpp headers
 git clone https://github.com/cucumber/cucumber-cpp.git
 cd cucumber-cpp
+git pull
 git submodule init
 git submodule update
 # execute necessary build steps to create missing include file(s)
@@ -15,3 +17,6 @@ cd ..
 
 # get gtest headers
 git clone https://github.com/google/googletest.git
+cd googletest
+git pull
+cd ..

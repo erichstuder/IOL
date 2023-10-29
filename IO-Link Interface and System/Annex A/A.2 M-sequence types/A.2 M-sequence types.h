@@ -47,7 +47,7 @@ namespace A_2_M_sequence_types {
 		bool is_valid(Parameters_for_is_valid *parameters);
 	}
 
-	namespace [[deprecated]] Table_A_10 {
+	namespace Table_A_10 {
 		bool is_valid(Parameters_for_is_valid *parameters);
 	}
 }

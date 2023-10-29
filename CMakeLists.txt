@@ -40,15 +40,15 @@ endfunction()
 
 add_cucumber_executable(
 	"IO-Link Interface and System/Annex A/A.2 M-sequence types/A.2 M-sequence types.cpp"
-	"IO-Link Interface and System/9 System Management/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/9.3.2.2 SM_SetDeviceCom.cpp"
+	"IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/9.3.2.2 SM_SetDeviceCom.cpp"
 	"IO-Link Interface and System/Annex A/A.2 M-sequence types/features/step_definitions/A.2 M-sequence types__steps.cpp"
-	"IO-Link Interface and System/9 System Management/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/features/step_definitions/9.3.2.2 SM_SetDeviceCom__steps.cpp"
+	"IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/features/step_definitions/9.3.2.2 SM_SetDeviceCom__steps.cpp"
 )
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/gmock/src/gmock/googletest/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/src")
 target_include_directories(steps PRIVATE "IO-Link Interface and System/Annex A/A.2 M-sequence types")
-target_include_directories(steps PRIVATE "IO-Link Interface and System/9 System Management/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom")
 target_link_libraries(steps PRIVATE
 	#dummy_lib
 	#dummy_lib2

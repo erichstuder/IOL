@@ -44,10 +44,10 @@ namespace A_2_M_sequence_types {
 	} Parameters_for_is_valid;
 
 	namespace [[deprecated]] Table_A_9 {
-		bool is_valid(Parameters_for_is_valid *parameters);
+		bool is_valid(Parameters_for_is_valid parameters);
 	}
 
 	namespace Table_A_10 {
-		bool is_valid(Parameters_for_is_valid *parameters);
+		bool is_valid(Parameters_for_is_valid parameters);
 	}
 }

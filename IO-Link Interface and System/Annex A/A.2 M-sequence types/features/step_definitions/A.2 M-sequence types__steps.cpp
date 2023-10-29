@@ -227,10 +227,10 @@ static void positive_test(Table_ID table_id) {
 				bool result;
 				switch(table_id) {
 					case Table_ID::A9:
-						result = Table_A_9::is_valid(&parameters);
+						result = Table_A_9::is_valid(parameters);
 						break;
 					case Table_ID::A10:
-						result = Table_A_10::is_valid(&parameters);
+						result = Table_A_10::is_valid(parameters);
 						break;
 					default:
 						FAIL() << "unknown table id";
@@ -273,10 +273,10 @@ static void find_invalid_combination(Table_ID table_id) {
 							bool result;
 							switch(table_id) {
 								case Table_ID::A9:
-									result = Table_A_9::is_valid(&parameters);
+									result = Table_A_9::is_valid(parameters);
 									break;
 								case Table_ID::A10:
-									result = Table_A_10::is_valid(&parameters);
+									result = Table_A_10::is_valid(parameters);
 									break;
 								default:
 									FAIL() << "unknown table id";

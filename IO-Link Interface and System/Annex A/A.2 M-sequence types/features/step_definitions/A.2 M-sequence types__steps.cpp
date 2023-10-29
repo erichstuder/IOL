@@ -196,17 +196,16 @@ GIVEN("^M-sequence type: (.+)$") {
 }
 
 static void positive_test(Table_ID table_id);
-
-static void find_invalid_combination_A_9();
+static void find_invalid_combination(Table_ID table_id);
 
 THEN("^the sequence type is valid for Table A.9$") {
 	positive_test(Table_ID::A9);
-	find_invalid_combination_A_9();
+	find_invalid_combination(Table_ID::A9);
 }
 
 THEN("^the sequence type is valid for Table A.10$") {
 	positive_test(Table_ID::A10);
-	//find_invalid_combination_A_10();
+	find_invalid_combination(Table_ID::A10);
 }
 
 
@@ -226,7 +225,6 @@ static void positive_test(Table_ID table_id) {
 				parameters.expected_M_sequence_type = context.expected_M_sequence_type;
 
 				bool result;
-
 				switch(table_id) {
 					case Table_ID::A9:
 						result = Table_A_9::is_valid(&parameters);
@@ -235,9 +233,8 @@ static void positive_test(Table_ID table_id) {
 						result = Table_A_10::is_valid(&parameters);
 						break;
 					default:
-						result = false;
-						break;
-
+						FAIL() << "unknown table id";
+						return;
 				}
 
 				EXPECT_TRUE(result)
@@ -253,7 +250,7 @@ static void positive_test(Table_ID table_id) {
 	}
 }
 
-static void find_invalid_combination_A_9() {
+static void find_invalid_combination(Table_ID table_id) {
 	Parameters_for_is_valid parameters;
 
 	for(parameters.M_sequence_code = M_sequence_code_min;
@@ -273,7 +270,20 @@ static void find_invalid_combination_A_9() {
 						for(unsigned int b = 0; b < (unsigned int)M_sequence_type::_cnt; b++) {
 							parameters.expected_M_sequence_type = (M_sequence_type)b;
 
-							if(Table_A_9::is_valid(&parameters) == false) {
+							bool result;
+							switch(table_id) {
+								case Table_ID::A9:
+									result = Table_A_9::is_valid(&parameters);
+									break;
+								case Table_ID::A10:
+									result = Table_A_10::is_valid(&parameters);
+									break;
+								default:
+									FAIL() << "unknown table id";
+									return;
+							}
+
+							if(result == false) {
 								SUCCEED();
 								return;
 							}

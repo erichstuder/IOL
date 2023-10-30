@@ -41,7 +41,7 @@ GIVEN("^ProcessDataOut has any value$") {
 	SUCCEED();
 }
 
-THEN("^the Arguments are in passable range$") {
+THEN("^the Argument is in passable range$") {
 	// check whether the service takes the above types
 	SM_SetDeviceCom__parameters parameters;
 	parameters.SupportedSIOMode = SupportedSIOMode_type::INACTIVE;

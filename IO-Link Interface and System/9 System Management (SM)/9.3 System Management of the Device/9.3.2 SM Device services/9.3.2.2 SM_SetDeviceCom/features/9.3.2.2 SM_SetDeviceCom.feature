@@ -11,7 +11,7 @@ Feature: 9.3.2.2 SM_SetDeviceCom
 		* RevisionID (RID) has any value
 		* ProcessDataIn has any value
 		* ProcessDataOut has any value
-		Then the Arguments are in passable range
+		Then the Argument is in passable range
 
 	Scenario: Result
 		Then the Result can only have the values SUCCESS and PARAMETER_CONFLICT		

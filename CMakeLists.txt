@@ -39,17 +39,17 @@ endfunction()
 
 
 add_cucumber_executable(
-	"IO-Link Interface and System/Annex A/A.2 M-sequence types/A.2 M-sequence types.cpp"
-	"IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/9.3.2.2 SM_SetDeviceCom.cpp"
-	"IO-Link Interface and System/Annex A/A.2 M-sequence types/features/step_definitions/A.2 M-sequence types__steps.cpp"
-	"IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom/features/step_definitions/9.3.2.2 SM_SetDeviceCom__steps.cpp"
-	"IO-Link Interface and System/8 Application layer (AL)/8.3 Application layer protocol/8.3.2 On-request Data transfer/8.3.2.3 Sequence diagrams for On-request Data/features/step_definitions/Figure_61_Sequence_diagram_for_the_transmission_of_On_request_Data__steps.cpp"
+	"IO-Link Interface and System/Annex A/A.2/M_sequence_types.cpp"
+	"IO-Link Interface and System/9/9.3/9.3.2/9.3.2.2/SM_SetDeviceCom.cpp"
+	"IO-Link Interface and System/Annex A/A.2/features/step_definitions/M_sequence_types__steps.cpp"
+	"IO-Link Interface and System/9/9.3/9.3.2/9.3.2.2/features/step_definitions/SM_SetDeviceCom__steps.cpp"
+	"IO-Link Interface and System/8/8.3/8.3.2/8.3.2.3/features/step_definitions/Figure_61__steps.cpp"
 )
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/gmock/src/gmock/googletest/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/src")
-target_include_directories(steps PRIVATE "IO-Link Interface and System/Annex A/A.2 M-sequence types")
-target_include_directories(steps PRIVATE "IO-Link Interface and System/9 System Management (SM)/9.3 System Management of the Device/9.3.2 SM Device services/9.3.2.2 SM_SetDeviceCom")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/Annex A/A.2")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/9/9.3/9.3.2/9.3.2.2")
 target_link_libraries(steps PRIVATE
 	#dummy_lib
 	#dummy_lib2

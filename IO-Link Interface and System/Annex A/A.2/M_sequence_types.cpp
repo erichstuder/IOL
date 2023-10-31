@@ -1,6 +1,6 @@
-#include "A.2 M-sequence types.h"
+#include "M_sequence_types.h"
 
-namespace A_2_M_sequence_types{
+namespace M_sequence_types{
 	namespace [[deprecated]] Table_A_9 {
 		bool is_valid(Parameters_for_is_valid parameters) {
 			bool line_1 =

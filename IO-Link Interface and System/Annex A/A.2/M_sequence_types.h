@@ -1,11 +1,11 @@
 #pragma once
 #include <cstdint>
 
-namespace A_2_M_sequence_types {
+namespace M_sequence_types {
 	enum class PD_representation_type {
 		bit,
 		octets,
-		_cnt //use only for tests
+		_cnt
 	};
 
 	enum class M_sequence_type {
@@ -19,7 +19,7 @@ namespace A_2_M_sequence_types {
 		TYPE_2_4,
 		TYPE_2_5,
 		TYPE_2_V,
-		_cnt //use only for tests
+		_cnt
 	};
 
 	const uint8_t M_sequence_code_min = 0;

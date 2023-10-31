@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "A.2 M-sequence types.h"
+#include "M_sequence_types.h"
 #include <regex>
 #include <boost/range/irange.hpp>
 
 using std::string; //TODO: braucht es das? Wie funktioniert das genau?
 
-using namespace A_2_M_sequence_types;
+using namespace M_sequence_types;
 
 static struct {
 	uint8_t OPERATE_M_sequence_code_min;

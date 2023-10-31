@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "9.3.2.2 SM_SetDeviceCom.h"
+#include "SM_SetDeviceCom.h"
 
 
 GIVEN("^SupportedSIOMode is in range \\{INACTIVE, DI, DO\\}$") {

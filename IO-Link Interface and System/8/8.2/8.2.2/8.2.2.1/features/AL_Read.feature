@@ -1,5 +1,5 @@
 # language: en
-Feature: 8.2.2.1 AL_Read
+Feature: AL_Read
 	Scenario: Argument
 		Given Port is in the range of Unsigned8
 		* Index is in the range of 0 to 65535

@@ -1,4 +1,4 @@
 # language: en
-Feature: Transmission of ISDUs
+Feature: State machine of the Master ISDU handler
 	Scenario: ISDU
 		# TBD

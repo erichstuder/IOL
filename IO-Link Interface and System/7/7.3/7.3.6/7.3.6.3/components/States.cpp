@@ -7,9 +7,9 @@ namespace State_machine_of_the_Master_ISDU_handler {
 		public:
 			_Inactive_0(States* states, ITransitions* transitions) : IState(states, transitions) { }
 
-			virtual IState* tick() { return this; }
+			IState* tick() { return this; }
 
-			virtual IState* handle_event(States::Event event) {
+			IState* handle_event(States::Event event) {
 				if(event == States::Event::IH_Conf_ACTIVE) {
 					transitions->T1();
 					return states->Idle_1;
@@ -22,9 +22,9 @@ namespace State_machine_of_the_Master_ISDU_handler {
 		public:
 			_Idle_1(States* states, ITransitions* transitions) : IState(states, transitions) { }
 
-			virtual IState* tick() { return this; }
+			IState* tick() { return this; }
 
-			virtual IState* handle_event(States::Event event) {
+			IState* handle_event(States::Event event) {
 				(void)event;
 				return this;
 			}

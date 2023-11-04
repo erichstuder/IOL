@@ -1,18 +1,49 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <cucumber-cpp/autodetect.hpp>
 
 #include "State_machine_of_the_Master_ISDU_handler.h"
-#include "Transitions_mock.h"
 
 using std::string;
 
 using namespace State_machine_of_the_Master_ISDU_handler;
 
-static Transitions_mock* transitions = new Transitions_mock();
-static States states(transitions);
+class Transitions_mock: public ITransitions {
+	public:
+		void T1() { set_transition_number(1); }
+		void T2() { set_transition_number(2); }
+		void T3() { set_transition_number(3); }
+		void T4() { set_transition_number(4); }
+		void T5() { set_transition_number(5); }
+		void T6() { set_transition_number(6); }
+		void T7() { set_transition_number(7); }
+		void T8() { set_transition_number(8); }
+		void T9() { set_transition_number(9); }
+		void T10() { set_transition_number(10); }
+		void T11() { set_transition_number(11); }
+		void T12() { set_transition_number(12); }
+		void T13() { set_transition_number(13); }
+		void T14() { set_transition_number(14); }
+		void T15() { set_transition_number(15); }
+		void T16() { set_transition_number(16); }
+		void T17() { set_transition_number(17); }
+		void T18() { set_transition_number(18); }
+		void T19() { set_transition_number(19); }
+
+		unsigned int transition_number = 0;
+
+		void set_transition_number(unsigned int transition_number) {
+			if(this->transition_number != 0) {
+				FAIL() << "looks like another transition has already been set: " << this->transition_number;
+			}
+			this->transition_number = transition_number;
+		}
+};
+
+static Transitions_mock* transitions_mock = new Transitions_mock();
+static States states(transitions_mock);
 static States::IState* state;
 static States::Event event;
+static unsigned int expected_transiton_number;
 
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
@@ -20,7 +51,7 @@ GIVEN("^State is (.+)$") {
 		state = states.Inactive_0;
 	}
 	else {
-		FAIL();
+		FAIL() << "unknown State";
 	}
 }
 
@@ -30,7 +61,7 @@ GIVEN("^Event is (.+)$") {
 		event = States::Event::IH_Conf_ACTIVE;
 	}
 	else {
-		FAIL();
+		FAIL() << "unknown Event";
 	}
 }
 
@@ -40,19 +71,17 @@ GIVEN("^Guard is (.+)$") {
 		//no Guard
 	}
 	else {
-		FAIL();
+		FAIL() << "unknown Guard";
 	}
 }
 
 GIVEN("^Transition is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "T1") {
-		EXPECT_CALL(*transitions, T1()).Times(1);
-		EXPECT_CALL(*transitions, T19()).Times(1);
-		FAIL() << "Möglicherweise kann man gmock nicht einsetzen. Wenn ja wie?";
+		expected_transiton_number = 1;
 	}
 	else {
-		FAIL();
+		FAIL() << "unknown Transition";
 	}
 }
 
@@ -62,8 +91,9 @@ THEN("^Result State is (.+)$") {
 	States::IState* result_state = state->handle_event(event);
 	if(data == "Idle_1") {
 		EXPECT_EQ(result_state, states.Idle_1);
+		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else {
-		FAIL();
+		FAIL() << "unknown Result State";
 	}
 }

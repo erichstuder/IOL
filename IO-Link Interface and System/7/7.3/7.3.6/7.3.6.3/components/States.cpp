@@ -3,7 +3,7 @@
 
 namespace State_machine_of_the_Master_ISDU_handler {
 
-	class _Inactive_0 : public States::IState {
+	class _Inactive_0: public States::IState {
 		public:
 			_Inactive_0(States* states, ITransitions* transitions) : IState(states, transitions) { }
 
@@ -18,7 +18,7 @@ namespace State_machine_of_the_Master_ISDU_handler {
 			}
 	};
 
-	class _Idle_1 : public States::IState {
+	class _Idle_1: public States::IState {
 		public:
 			_Idle_1(States* states, ITransitions* transitions) : IState(states, transitions) { }
 
@@ -38,8 +38,7 @@ namespace State_machine_of_the_Master_ISDU_handler {
 	};*/
 
 
-	States::States(ITransitions* transitions) :
+	States::States(ITransitions* transitions):
 		Inactive_0(new _Inactive_0(this, transitions)),
-		Idle_1(new _Idle_1(this, transitions))
-	{ }
+		Idle_1(new _Idle_1(this, transitions)) { }
 }

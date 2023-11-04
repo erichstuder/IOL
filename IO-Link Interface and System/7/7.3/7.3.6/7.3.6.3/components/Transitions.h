@@ -3,7 +3,7 @@
 #include "ITransitions.h"
 
 namespace State_machine_of_the_Master_ISDU_handler {
-	class Transitions : public ITransitions {
+	class Transitions: public ITransitions{
 		public:
 			void T1();
 			void T2();

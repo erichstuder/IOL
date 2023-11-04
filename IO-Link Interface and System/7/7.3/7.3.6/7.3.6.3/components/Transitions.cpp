@@ -1,7 +1,8 @@
 #include "Transitions.h"
+#include "gtest/gtest.h"
 
 namespace State_machine_of_the_Master_ISDU_handler {
-	void Transitions::T1() {}
+	void Transitions::T1() { FAIL() << "I was here"; }
 	void Transitions::T2() {}
 	void Transitions::T3() {}
 	void Transitions::T4() {}

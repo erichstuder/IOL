@@ -15,7 +15,7 @@ cmake -E make_directory build
 cmake -E chdir build cmake -DCUKE_ENABLE_EXAMPLES=on -DCMAKE_INSTALL_PREFIX=${prefix} ..
 cd ..
 
-# get gtest and gmock headers
+# get gtest headers
 git clone https://github.com/google/googletest.git
 cd googletest
 git pull

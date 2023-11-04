@@ -44,12 +44,22 @@ add_cucumber_executable(
 	"IO-Link Interface and System/Annex A/A.2/features/step_definitions/M_sequence_types__steps.cpp"
 	"IO-Link Interface and System/9/9.3/9.3.2/9.3.2.2/features/step_definitions/SM_SetDeviceCom__steps.cpp"
 	"IO-Link Interface and System/8/8.3/8.3.2/8.3.2.3/features/step_definitions/Figure_61__steps.cpp"
+	
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/State_machine_of_the_Master_ISDU_handler.cpp"
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/components/States.cpp"
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/components/Transitions.cpp"
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/features/steps/State_machine_of_the_Master_ISDU_handler__steps.cpp"
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/features/steps/Transitions_mock.cpp"
 )
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/gmock/src/gmock/googletest/include")
+target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/gmock/src/gmock/googlemock/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/src")
 target_include_directories(steps PRIVATE "IO-Link Interface and System/Annex A/A.2")
 target_include_directories(steps PRIVATE "IO-Link Interface and System/9/9.3/9.3.2/9.3.2.2")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/components")
+target_include_directories(steps PRIVATE "IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/features/steps")
 target_link_libraries(steps PRIVATE
 	#dummy_lib
 	#dummy_lib2

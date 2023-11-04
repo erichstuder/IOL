@@ -10,7 +10,7 @@ Feature: State machine of the Master ISDU handler
 	Examples:
 		| State         | Event           | Guard            | Transition | Result State  |
 		| Inactive_0    | IH_Conf_ACTIVE  | -                | T1         | Idle_1        |
-		# | Idle_1        | ISDUTrig        | DL_ISDUTransport | T2         | ISDURequest_2 |
+		| Idle_1        | ISDUTrig        | DL_ISDUTransport | T2         | ISDURequest_2 |
 		# | Idle_1        | ISDUTrig        | ParamRequest     | T13        | Idle_1        |
 		# | Idle_1        | ISDUTrig        | -                | T14        | Idle_1        |
 		# | ISDURequest_2 | -               | Data written     | T4         | ISDUWait_3    |

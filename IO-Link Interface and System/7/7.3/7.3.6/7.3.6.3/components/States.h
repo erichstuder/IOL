@@ -10,17 +10,20 @@ namespace State_machine_of_the_Master_ISDU_handler {
 			enum class Event {
 				IH_Conf_ACTIVE,
 				IH_Conf_INACTIVE,
-				ISDUTrig
-				//there is more to come, see: Figure 51
+				ISDUTrig,
+				DL_Mode_COMLOST,
+				ISDUAbort,
+				DL_ISDUAbort
 			};
 
 			enum class Guard {
 				NoGuard,
 				DL_ISDUTransport,
+				ParamRequest,
 				Data_written,
 				ResponseStart,
-				Error
-				//there is more to come, see: Figure 51
+				Error,
+				Transmission_completed
 			};
 
 			class IState {
@@ -40,5 +43,6 @@ namespace State_machine_of_the_Master_ISDU_handler {
 			IState* const ISDURequest_2;
 			IState* const ISDUWait_3;
 			IState* const ISDUError_4;
+			IState* const ISDUResponse_5;
 	};
 }

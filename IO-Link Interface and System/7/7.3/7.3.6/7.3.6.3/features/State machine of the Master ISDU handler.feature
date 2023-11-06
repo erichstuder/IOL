@@ -34,6 +34,3 @@ Feature: State machine of the Master ISDU handler
 		| ISDUResponse_5 | ISDUTrig         | Transmission completed | T8         | Idle_1         |
 		| ISDUResponse_5 | -                | Error                  | T10        | ISDUError_4    |
 		| ISDUResponse_5 | DL_ISDUAbort     | -                      | T18        | ISDUError_4    |
-
-	
-	#Scenario: Transitions

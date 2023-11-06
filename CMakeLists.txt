@@ -49,6 +49,7 @@ add_cucumber_executable(
 	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/components/States.cpp"
 	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/components/Transitions.cpp"
 	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/features/steps/State_machine_of_the_Master_ISDU_handler__steps.cpp"
+	"IO-Link Interface and System/7/7.3/7.3.6/7.3.6.3/features/steps/State_transition_tables_of_the_Master_ISDU_handler__steps.cpp"
 )
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/build/gmock/src/gmock/googletest/include")
 target_include_directories(steps PRIVATE "/usr/src/cucumber-cpp/include")

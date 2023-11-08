@@ -35,13 +35,17 @@ class OD {
 
 		struct Result_type {
 			enum class ErrorInfo_type {
+				SUCCESS,
 				NO_COMM,
-				STATE_CONFLICT
+				STATE_CONFLICT,
+				_cnt
 			};
 
 			ErrorInfo_type ErrorInfo;
 			OctetStringT* Data;
 			//Length_type Length; see Data
+
+			Result_type(uint8_t data_length) : Data(new OctetStringT(data_length)) { }
 		};
 
 		struct Argument_type {

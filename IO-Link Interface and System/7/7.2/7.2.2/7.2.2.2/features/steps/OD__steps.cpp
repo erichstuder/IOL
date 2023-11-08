@@ -5,6 +5,43 @@
 
 using std::string;
 
+OD OD;
+
+THEN("^\\.req has Argument: yes") {
+	OD::Argument_type Argument;
+	OD.req(Argument);
+}
+
+THEN("^\\.ind has Argument: yes") {
+	OD::Argument_type Argument;
+	OD.ind(Argument);
+}
+
+THEN("^\\.rsp has Argument: no") {
+	OD.rsp();
+}
+
+THEN("^\\.cnf has Argument: no") {
+	OD.cnf();
+}
+
+THEN("^\\.req has Result: no$") {
+	//TODO: any idea to test for a void return value?
+}
+
+THEN("^\\.ind has Result: no$") {
+	//TODO: any idea to test for a void return value?
+}
+
+THEN("^\\.rsp has Result: yes$") {
+	OD::Result_type dummy = OD.rsp();
+	(void)dummy;
+}
+
+THEN("^\\.cnf has Result: yes$") {
+	OD::Result_type dummy = OD.cnf();
+	(void)dummy;
+}
 
 GIVEN("^RWDirection is in the range \\{READ, WRITE\\}$") {
 	EXPECT_TRUE((int)OD::RWDirection_type::READ >= 0);
@@ -93,18 +130,19 @@ GIVEN("^Length is in the range \\{0..32\\}$") {
 }
 
 GIVEN("^Data is of type Octet string$") {
-	OD::Argument_type argument;
-	argument.Data = new OctetStringT(23);
-	(void)argument;
+	OD::Argument_type Argument;
+	Argument.Data = new OctetStringT(23);
+	(void)Argument;
 }
 
 GIVEN("^the Argument is passable range$") {
-	/*OD::Argument_type argument;
-	argument.RWDirection = OD::RWDirection_type::READ;
-	argument.ComChannel = OD::ComChannel_type::DIAGNOSIS;
-	argument.AddressCtrl = OD::AddressCtrl_type::_17;
-	argument.Length = OD::Length_type::_32;
-	argument.Data = new OctetStringT(23);*/
+	OD::Argument_type Argument;
+	Argument.RWDirection = OD::RWDirection_type::READ;
+	Argument.ComChannel = OD::ComChannel_type::DIAGNOSIS;
+	Argument.AddressCtrl = OD::AddressCtrl_type::_17;
+	Argument.Length = OD::Length_type::_32;
+	Argument.Data = new OctetStringT(23);
 
-	FAIL() << "finish the implementation";
+	OD.req(Argument);
+	OD.ind(Argument);
 }

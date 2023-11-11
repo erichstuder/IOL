@@ -17,8 +17,8 @@ docker run \
 	bash -c '
 		cmake '${VOLUME_DIR}'
 		cmake --build .
-		for executables in steps/*; do
-			feature_file=${executables:6:-7}.feature
+		for executable in steps/*; do
+			feature_file=${executable:6:-7}.feature
 			feature_path=$(find -P ../.. -name ${feature_file})
 			cucumber "${feature_path}"
 		done

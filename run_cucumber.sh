@@ -14,4 +14,12 @@ docker run \
 	--volume "${PWD}":${VOLUME_DIR} \
 	--workdir "${VOLUME_DIR}${BUILD_DIR}" \
 	-it $TAG \
-	bash -c "cmake ${VOLUME_DIR} && cmake --build . && (./steps >/dev/null &) && cucumber ${VOLUME_DIR}"
+	bash -c '
+		cmake '${VOLUME_DIR}'
+		cmake --build .
+		for executables in steps/*; do
+			feature_file=${executables:6:-7}.feature
+			feature_path=$(find -P ../.. -name ${feature_file})
+			cucumber "${feature_path}"
+		done
+		'

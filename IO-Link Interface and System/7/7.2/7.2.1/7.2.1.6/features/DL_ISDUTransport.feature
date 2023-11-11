@@ -1,27 +1,27 @@
 # language: en
 Feature: DL_ISDUTransport
-# 	Scenario Outline: primitives
-# 		Then <primitive> has Argument: <Argument>
-# 		* <primitive> has Result: <Result>
+	Scenario Outline: primitives
+		Then <primitive> has Argument: <Argument>
+		* <primitive> has Result: <Result>
 
-# 	Examples:
-# 		| primitive | Argument | Result |
-# 		| .req      | yes      | no     |
-# 		| .ind      | yes      | no     |
-# 		| .rsp      | no       | yes    |
-# 		| .cnf      | no       | yes    |
+	Examples:
+		| primitive | Argument | Result |
+		| .req      | yes      | no     |
+		| .ind      | yes      | no     |
+		| .rsp      | no       | yes    |
+		| .cnf      | no       | yes    |
 
 
 	Scenario: Argument
 		Given Index is in the range of 2 to 65535
-	# 	* Subindex is in the range of 0 t 255
-	# 	* Data is of type Octet string
-# 		* Direction is READ or WRITE
-# 		Then the Argument is in passable range
+		* Subindex is in the range of 0 t 255
+		* Data is of type Octet string
+		* Direction is READ or WRITE
+		Then the Argument is in passable range
 
 # 	Scenario: Result Success
 # 		Given the service executed successfully
-# 		Then the parameter Data an Octet string
+# 		Then the parameter Data is an Octet string
 # 		* the parameter Qualifier contains an I-Service Device response
 
 # 	Scenario: Result Fail

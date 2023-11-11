@@ -5,24 +5,24 @@
 
 using std::string;
 
-OD OD;
+OD od;
 
 THEN("^\\.req has Argument: yes") {
 	OD::Argument_type Argument;
-	OD.req(Argument);
+	od.req(Argument);
 }
 
 THEN("^\\.ind has Argument: yes") {
 	OD::Argument_type Argument;
-	OD.ind(Argument);
+	od.ind(Argument);
 }
 
 THEN("^\\.rsp has Argument: no") {
-	OD.rsp();
+	od.rsp();
 }
 
 THEN("^\\.cnf has Argument: no") {
-	OD.cnf();
+	od.cnf();
 }
 
 THEN("^\\.req has Result: no$") {
@@ -34,12 +34,12 @@ THEN("^\\.ind has Result: no$") {
 }
 
 THEN("^\\.rsp has Result: yes$") {
-	OD::Result_type dummy = OD.rsp();
+	OD::Result_type dummy = od.rsp();
 	(void)dummy;
 }
 
 THEN("^\\.cnf has Result: yes$") {
-	OD::Result_type dummy = OD.cnf();
+	OD::Result_type dummy = od.cnf();
 	(void)dummy;
 }
 
@@ -143,6 +143,6 @@ GIVEN("^the Argument is passable range$") {
 	Argument.Length = OD::Length_type::_32;
 	Argument.Data = new OctetStringT(23);
 
-	OD.req(Argument);
-	OD.ind(Argument);
+	od.req(Argument);
+	od.ind(Argument);
 }

@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
-/*
-#include "State_machine_of_the_Master_ISDU_handler.h"
+
+#include "OD_state_machine_of_the_Master_AL.h"
 
 using std::string;
 
-using namespace State_machine_of_the_Master_ISDU_handler;
+using namespace OD_state_machine_of_the_Master_AL;
 
 class Transitions_mock: public ITransitions {
 	public:
@@ -27,7 +27,6 @@ class Transitions_mock: public ITransitions {
 		void T16() { transition_number = 16; }
 		void T17() { transition_number = 17; }
 		void T18() { transition_number = 18; }
-		void T19() { transition_number = 19; }
 
 		unsigned int transition_number;
 
@@ -51,10 +50,10 @@ BEFORE() {
 
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
-	if(data == "Inactive_0") {
-		state = states.Inactive_0;
+	if(data == "OnReq_Idle_0") {
+		state = states.OnReq_Idle_0;
 	}
-	else if(data == "Idle_1") {
+	/*else if(data == "Idle_1") {
 		state = states.Idle_1;
 	}
 	else if(data == "ISDURequest_2") {
@@ -68,7 +67,7 @@ GIVEN("^State is (.+)$") {
 	}
 	else if(data == "ISDUResponse_5") {
 		state = states.ISDUResponse_5;
-	}
+	}*/
 	else {
 		FAIL() << "unknown State";
 	}
@@ -77,10 +76,10 @@ GIVEN("^State is (.+)$") {
 GIVEN("^Event is (.+)$") {
 	there_is_an_event = true;
 	REGEX_PARAM(string, data);
-	if(data == "IH_Conf_ACTIVE") {
-		event = States::Event::IH_Conf_ACTIVE;
+	if(data == "AL_Service_Portx") {
+		event = States::Event::AL_Service_Portx;
 	}
-	else if(data == "IH_Conf_INACTIVE") {
+	/*else if(data == "IH_Conf_INACTIVE") {
 		event = States::Event::IH_Conf_INACTIVE;
 	}
 	else if(data == "ISDUTrig") {
@@ -97,7 +96,7 @@ GIVEN("^Event is (.+)$") {
 	}
 	else if(data == "-") {
 		there_is_an_event = false;
-	}
+	}*/
 	else {
 		FAIL() << "unknown event";
 	}
@@ -108,7 +107,7 @@ GIVEN("^Guard is (.+)$") {
 	if(data == "-") {
 		guard = States::Guard::NoGuard;
 	}
-	else if(data == "DL_ISDUTransport") {
+	/*else if(data == "DL_ISDUTransport") {
 		guard = States::Guard::DL_ISDUTransport;
 	}
 	else if(data == "ParamRequest") {
@@ -125,7 +124,7 @@ GIVEN("^Guard is (.+)$") {
 	}
 	else if(data == "Transmission completed") {
 		guard = States::Guard::Transmission_completed;
-	}
+	}*/
 	else {
 		FAIL() << "unknown Guard";
 	}
@@ -151,7 +150,6 @@ GIVEN("^Transition is (.+)$") {
 	else if(data == "T16") { expected_transiton_number = 16; }
 	else if(data == "T17") { expected_transiton_number = 17; }
 	else if(data == "T18") { expected_transiton_number = 18; }
-	else if(data == "T19") { expected_transiton_number = 19; }
 	else { FAIL() << "unknown Transition"; }
 }
 
@@ -166,31 +164,27 @@ THEN("^Result State is (.+)$") {
 		result_state = state->tick(guard);
 	}
 
-	if(data == "Inactive_0") {
-		EXPECT_EQ(result_state, states.Inactive_0);
+	if(data == "OnReq_Idle_0") {
+		EXPECT_EQ(result_state, states.OnReq_Idle_0);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
-	else if(data == "Idle_1") {
-		EXPECT_EQ(result_state, states.Idle_1);
+	else if(data == "Build_DL_Service_1") {
+		EXPECT_EQ(result_state, states.Build_DL_Service_1);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
-	else if(data == "ISDURequest_2") {
-		EXPECT_EQ(result_state, states.ISDURequest_2);
+	else if(data == "Await_DL_Param_cnf_2") {
+		EXPECT_EQ(result_state, states.Await_DL_Param_cnf_2);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
-	else if(data == "ISDUWait_3") {
-		EXPECT_EQ(result_state, states.ISDUWait_3);
+	else if(data == "Await_DL_ISDU_cnf_3") {
+		EXPECT_EQ(result_state, states.Await_DL_ISDU_cnf_3);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
-	else if(data == "ISDUError_4") {
-		EXPECT_EQ(result_state, states.ISDUError_4);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else if(data == "ISDUResponse_5") {
-		EXPECT_EQ(result_state, states.ISDUResponse_5);
+	else if(data == "Build_AL_cnf_4") {
+		EXPECT_EQ(result_state, states.Build_AL_cnf_4);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else {
 		FAIL() << "unknown Result State";
 	}
-}*/
+}

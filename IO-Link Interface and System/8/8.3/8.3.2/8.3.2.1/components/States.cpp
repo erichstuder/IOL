@@ -10,11 +10,16 @@ namespace OD_state_machine_of_the_Master_AL {
 
 			IState* handle_event(States::Event event, States::Guard guard) {
 				(void)guard;
-				if(event == States::Event::AL_Service_Portx) {
-					transitions->T1();
-					return states->Build_DL_Service_1;
+				switch(event) {
+					case States::Event::AL_Service_Portx:
+						transitions->T1();
+						return states->Build_DL_Service_1;
+					case States::Event::AL_Abort_Portx:
+						transitions->T17();
+						return states->OnReq_Idle_0;
+					default:
+						return this;
 				}
-				return this;
 			}
 	};
 

@@ -79,10 +79,10 @@ GIVEN("^Event is (.+)$") {
 	if(data == "AL_Service_Portx") {
 		event = States::Event::AL_Service_Portx;
 	}
-	/*else if(data == "IH_Conf_INACTIVE") {
-		event = States::Event::IH_Conf_INACTIVE;
+	else if(data == "AL_Abort_Portx") {
+		event = States::Event::AL_Abort_Portx;
 	}
-	else if(data == "ISDUTrig") {
+	/*else if(data == "ISDUTrig") {
 		event = States::Event::ISDUTrig;
 	}
 	else if(data == "DL_Mode_COMLOST") {
@@ -93,10 +93,10 @@ GIVEN("^Event is (.+)$") {
 	}
 	else if(data == "DL_ISDUAbort") {
 		event = States::Event::DL_ISDUAbort;
-	}
+	}*/
 	else if(data == "-") {
 		there_is_an_event = false;
-	}*/
+	}
 	else {
 		FAIL() << "unknown event";
 	}

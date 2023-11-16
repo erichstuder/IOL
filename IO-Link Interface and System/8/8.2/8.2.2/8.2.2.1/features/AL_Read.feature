@@ -1,5 +1,16 @@
 # language: en
-# Feature: AL_Read
+Feature: AL_Read
+	Scenario Outline: primitives
+		Then <primitive> has Argument: <Argument>
+		* <primitive> has Result: <Result>
+
+	Examples:
+		| primitive | Argument              | Result                |
+		| .req      | Port, Index, Subindex | -                     |
+		| .ind      | Index, Subindex       | -                     |
+		| .rsp      | -                     | Data                  |
+		| .cnf      | -                     | Port, Data, ErrorInfo |
+
 # 	Scenario: Argument
 # 		Given Port is in the range of Unsigned8
 # 		* Index is in the range of 0 to 65535

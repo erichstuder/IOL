@@ -1,12 +1,11 @@
 #pragma once
 
 #include "ITransitions.h"
+#include "AL_Read.h"
 
 namespace OD_state_machine_of_the_Master_AL {
 	class States {
 		public:
-			States(ITransitions* transitions);
-
 			enum class Event {
 				AL_Service_Portx,
 				AL_Read,
@@ -26,22 +25,27 @@ namespace OD_state_machine_of_the_Master_AL {
 				//there is more to come
 			};
 
-			class IState {
+			class State: public AL_Read {
 				public:
-					IState(States* states, ITransitions* transitions) :
-						states(states),	transitions(transitions)
-						{};
-					virtual IState* tick(Guard guard) = 0;
-					virtual IState* handle_event(Event event, Guard guard) = 0;
+					State(States* states, ITransitions* transitions);
+					virtual State* tick(Guard guard) = 0;
+
+					void AL_Read_req(uint8_t Port, uint16_t Index, uint8_t Subindex);
+					void AL_Read_ind(uint16_t Index, uint8_t Subindex);
+					Result_type AL_Read_rsp();
+					Result_type AL_Read_cnf();
 				protected:
 					States* states;
 					ITransitions* transitions;
 			};
 
-			IState* const OnReq_Idle_0;
-			IState* const Build_DL_Service_1;
-			IState* const Await_DL_Param_cnf_2;
-			IState* const Await_DL_ISDU_cnf_3;
-			IState* const Build_AL_cnf_4;
+			State* const OnReq_Idle_0;
+			State* const Build_DL_Service_1;
+			State* const Await_DL_Param_cnf_2;
+			State* const Await_DL_ISDU_cnf_3;
+			State* const Build_AL_cnf_4;
+			State* state;
+
+			States(ITransitions* transitions);
 	};
 }

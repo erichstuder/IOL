@@ -37,11 +37,14 @@ class Transitions_mock: public ITransitions {
 
 static Transitions_mock* transitions_mock = new Transitions_mock();
 static States states(transitions_mock);
-static States::IState* state;
-static States::Event event;
-static States::Guard guard;
+//static States::State* state;
+//static States::Guard guard;
 static unsigned int expected_transiton_number;
-static bool there_is_an_event;
+//static bool there_is_an_event;
+static string event;
+
+uint16_t Index_min;
+uint16_t Index_max;
 
 
 BEFORE() {
@@ -51,12 +54,12 @@ BEFORE() {
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "OnReq_Idle_0") {
-		state = states.OnReq_Idle_0;
+		states.state = states.OnReq_Idle_0;
 	}
-	/*else if(data == "Idle_1") {
-		state = states.Idle_1;
+	else if(data == "Build_DL_Service_1") {
+		states.state = states.Build_DL_Service_1;
 	}
-	else if(data == "ISDURequest_2") {
+	/*else if(data == "ISDURequest_2") {
 		state = states.ISDURequest_2;
 	}
 	else if(data == "ISDUWait_3") {
@@ -74,16 +77,17 @@ GIVEN("^State is (.+)$") {
 }
 
 GIVEN("^Event is (.+)$") {
-	there_is_an_event = true;
+	//there_is_an_event = true;
 	REGEX_PARAM(string, data);
-	if(data == "AL_Service_Portx") {
+	event = data;
+	/*if(data == "AL_Service_Portx") {
 		event = States::Event::AL_Service_Portx;
 	}
 	else if(data == "AL_Abort_Portx") {
 		event = States::Event::AL_Abort_Portx;
 	}
-	/*else if(data == "ISDUTrig") {
-		event = States::Event::ISDUTrig;
+	else if(data == "AL_Read") {
+		event = States::Event::AL_Read;
 	}
 	else if(data == "DL_Mode_COMLOST") {
 		event = States::Event::DL_Mode_COMLOST;
@@ -93,24 +97,26 @@ GIVEN("^Event is (.+)$") {
 	}
 	else if(data == "DL_ISDUAbort") {
 		event = States::Event::DL_ISDUAbort;
-	}*/
+	}
 	else if(data == "-") {
 		there_is_an_event = false;
 	}
 	else {
 		FAIL() << "unknown event";
-	}
+	}*/
 }
 
 GIVEN("^Guard is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "-") {
-		guard = States::Guard::NoGuard;
+		//guard = States::Guard::NoGuard;
 	}
-	/*else if(data == "DL_ISDUTransport") {
-		guard = States::Guard::DL_ISDUTransport;
+	else if(data == "Index <= 1") {
+		//guard = States::Guard::NoGuard;
+		Index_min = 0;
+		Index_max = 1;
 	}
-	else if(data == "ParamRequest") {
+	/*else if(data == "ParamRequest") {
 		guard = States::Guard::ParamRequest;
 	}
 	else if(data == "Data written") {
@@ -156,32 +162,34 @@ GIVEN("^Transition is (.+)$") {
 THEN("^Result State is (.+)$") {
 	REGEX_PARAM(string, data);
 
-	States::IState* result_state;
-	if(there_is_an_event) {
-		result_state = state->handle_event(event, guard);
+	//States::State* result_state;
+	if(event == "-") {
+		// TODO:what todo? result_state = state->handle_event(event, guard);
 	}
-	else {
-		result_state = state->tick(guard);
+	else if(event == "AL_Read") {
+		//for(auto index = Index_min; index <= Index_max; index++) {
+			states.state->AL_Read_req(0, Index_min, 0);
+		//}
 	}
 
 	if(data == "OnReq_Idle_0") {
-		EXPECT_EQ(result_state, states.OnReq_Idle_0);
+		EXPECT_EQ(states.state, states.OnReq_Idle_0);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else if(data == "Build_DL_Service_1") {
-		EXPECT_EQ(result_state, states.Build_DL_Service_1);
+		EXPECT_EQ(states.state, states.Build_DL_Service_1);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else if(data == "Await_DL_Param_cnf_2") {
-		EXPECT_EQ(result_state, states.Await_DL_Param_cnf_2);
+		EXPECT_EQ(states.state, states.Await_DL_Param_cnf_2);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else if(data == "Await_DL_ISDU_cnf_3") {
-		EXPECT_EQ(result_state, states.Await_DL_ISDU_cnf_3);
+		EXPECT_EQ(states.state, states.Await_DL_ISDU_cnf_3);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else if(data == "Build_AL_cnf_4") {
-		EXPECT_EQ(result_state, states.Build_AL_cnf_4);
+		EXPECT_EQ(states.state, states.Build_AL_cnf_4);
 		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
 	}
 	else {

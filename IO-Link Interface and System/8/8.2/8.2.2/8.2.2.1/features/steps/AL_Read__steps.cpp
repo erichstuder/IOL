@@ -7,30 +7,30 @@ using std::string;
 
 class AL_Read_mock: public AL_Read {
 	public:
-		void req(uint8_t Port, uint16_t Index, uint8_t Subindex) {
+		void AL_Read_req(uint8_t Port, uint16_t Index, uint8_t Subindex) {
 			(void)Port;
 			(void)Index;
 			(void)Subindex;
 		}
 
-		void ind(uint16_t Index, uint8_t Subindex) {
+		void AL_Read_ind(uint16_t Index, uint8_t Subindex) {
 			(void)Index;
 			(void)Subindex;
 		}
 
-		Result_type rsp() {
+		Result_type AL_Read_rsp() {
 			return Result_type(42);
 		}
 		
-		Result_type cnf() {
+		Result_type AL_Read_cnf() {
 			return Result_type(14);
 		}
 };
 
-AL_Read_mock al_read_mock;
+AL_Read_mock service_mock;
 
 THEN("^\\.req has Argument: Port, Index, Subindex$") {
-	al_read_mock.req(1, 2, 3);
+	service_mock.AL_Read_req(1, 2, 3);
 }
 
 THEN("^\\.req has Result: -$") {
@@ -38,7 +38,7 @@ THEN("^\\.req has Result: -$") {
 }
 
 THEN("^\\.ind has Argument: Index, Subindex$") {
-	al_read_mock.ind(1, 2);
+	service_mock.AL_Read_ind(1, 2);
 }
 
 THEN("^\\.ind has Result: -$") {
@@ -46,20 +46,20 @@ THEN("^\\.ind has Result: -$") {
 }
 
 THEN("^\\.rsp has Argument: -$") {
-	al_read_mock.rsp();
+	service_mock.AL_Read_rsp();
 }
 
 THEN("^\\.rsp has Result: Data$") {
-	AL_Read_mock::Result_type result = al_read_mock.rsp();
+	AL_Read_mock::Result_type result = service_mock.AL_Read_rsp();
 	(void)result.Data;
 }
 
 THEN("^\\.cnf has Argument: -$") {
-	al_read_mock.cnf();
+	service_mock.AL_Read_cnf();
 }
 
 THEN("^\\.cnf has Result: Port, Data, ErrorInfo$") {
-	AL_Read_mock::Result_type result = al_read_mock.cnf();
+	AL_Read_mock::Result_type result = service_mock.AL_Read_cnf();
 	(void)result.Port;
 	(void)result.Data;
 	(void)result.ErrorInfo;

@@ -103,10 +103,9 @@ namespace OD_state_machine_of_the_Master_AL {
 	void States::State::AL_Read_req(uint8_t Port, uint16_t Index, uint8_t Subindex) {
 		(void)Port;
 		(void)Subindex;
-		(void)Index;
 		if(states->state == states->Build_DL_Service_1) {
 			if(Index <= 1) {
-				//TODO: we have todo more here
+				//DL_ReadParam(Index);
 				transitions->T3();
 				states->state = states->Await_DL_Param_cnf_2;
 			}

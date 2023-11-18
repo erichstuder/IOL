@@ -37,10 +37,8 @@ class Transitions_mock: public ITransitions {
 
 static Transitions_mock* transitions_mock = new Transitions_mock();
 static States states(transitions_mock);
-//static States::State* state;
-//static States::Guard guard;
+static States::State* initial_state;
 static unsigned int expected_transiton_number;
-//static bool there_is_an_event;
 static string event;
 
 uint16_t Index_min;
@@ -54,10 +52,10 @@ BEFORE() {
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "OnReq_Idle_0") {
-		states.state = states.OnReq_Idle_0;
+		initial_state = states.OnReq_Idle_0;
 	}
 	else if(data == "Build_DL_Service_1") {
-		states.state = states.Build_DL_Service_1;
+		initial_state = states.Build_DL_Service_1;
 	}
 	/*else if(data == "ISDURequest_2") {
 		state = states.ISDURequest_2;
@@ -159,40 +157,39 @@ GIVEN("^Transition is (.+)$") {
 	else { FAIL() << "unknown Transition"; }
 }
 
-THEN("^Result State is (.+)$") {
-	REGEX_PARAM(string, data);
+static void assert_state_and_transition(const string expected_state) {
+	if(expected_state == "OnReq_Idle_0") {
+		EXPECT_EQ(states.state, states.OnReq_Idle_0);
+	}
+	else if(expected_state == "Build_DL_Service_1") {
+		EXPECT_EQ(states.state, states.Build_DL_Service_1);
+	}
+	else if(expected_state == "Await_DL_Param_cnf_2") {
+		EXPECT_EQ(states.state, states.Await_DL_Param_cnf_2);
+	}
+	else if(expected_state == "Await_DL_ISDU_cnf_3") {
+		EXPECT_EQ(states.state, states.Await_DL_ISDU_cnf_3);
+	}
+	else if(expected_state == "Build_AL_cnf_4") {
+		EXPECT_EQ(states.state, states.Build_AL_cnf_4);
+	}
+	else {
+		FAIL() << "unknown Result State";
+	}
+	EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
+}
 
-	//States::State* result_state;
+THEN("^Result State is (.+)$") {
+	REGEX_PARAM(string, expected_state);
+
 	if(event == "-") {
 		// TODO:what todo? result_state = state->handle_event(event, guard);
 	}
 	else if(event == "AL_Read") {
-		//for(auto index = Index_min; index <= Index_max; index++) {
-			states.state->AL_Read_req(0, Index_min, 0);
-		//}
-	}
-
-	if(data == "OnReq_Idle_0") {
-		EXPECT_EQ(states.state, states.OnReq_Idle_0);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else if(data == "Build_DL_Service_1") {
-		EXPECT_EQ(states.state, states.Build_DL_Service_1);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else if(data == "Await_DL_Param_cnf_2") {
-		EXPECT_EQ(states.state, states.Await_DL_Param_cnf_2);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else if(data == "Await_DL_ISDU_cnf_3") {
-		EXPECT_EQ(states.state, states.Await_DL_ISDU_cnf_3);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else if(data == "Build_AL_cnf_4") {
-		EXPECT_EQ(states.state, states.Build_AL_cnf_4);
-		EXPECT_EQ(transitions_mock->transition_number, expected_transiton_number);
-	}
-	else {
-		FAIL() << "unknown Result State";
+		for(auto index = Index_min; index <= Index_max; index++) {
+			states.state = initial_state;
+			states.state->AL_Read_req(0, index, 0);
+			assert_state_and_transition("expected_state");
+		}
 	}
 }

@@ -36,16 +36,16 @@ static string event;
 
 
 BEFORE() {
-	//transitions_mock->reset();
+	transitions_mock->reset();
 }
 
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "Inactive_0") {
-		states.state = states.Inactive_0;
+		states.change_state(states.Inactive_0);
 	}
 	else if(data == "Idle_1") {
-		states.state = states.Idle_1;
+		states.change_state(states.Idle_1);
 	}
 	else {
 		FAIL() << "unknown State";
@@ -85,19 +85,19 @@ THEN("^Transition is (.+)$") {
 
 static void assert_state_and_transition(const string expected_state) {
 	if(expected_state == "Inactive_0") {
-		EXPECT_EQ(states.state, states.Inactive_0);
+		EXPECT_EQ(states.get_state(), states.Inactive_0);
 	}
 	else if(expected_state == "Idle_1") {
-		EXPECT_EQ(states.state, states.Idle_1);
+		EXPECT_EQ(states.get_state(), states.Idle_1);
 	}
 	else if(expected_state == "GetMessage_2") {
-		EXPECT_EQ(states.state, states.GetMessage_2);
+		EXPECT_EQ(states.get_state(), states.GetMessage_2);
 	}
 	else if(expected_state == "CheckMessage_3") {
-		EXPECT_EQ(states.state, states.CheckMessage_3);
+		EXPECT_EQ(states.get_state(), states.CheckMessage_3);
 	}
 	else if(expected_state == "CreateMessage_4") {
-		EXPECT_EQ(states.state, states.CreateMessage_4);
+		EXPECT_EQ(states.get_state(), states.CreateMessage_4);
 	}
 	else {
 		FAIL() << "unknown Result State";
@@ -112,15 +112,15 @@ THEN("^Result State is (.+)$") {
 		// TODO:what todo? result_state = state->handle_event(event, guard);
 	}
 	else if(event == "MH_Conf_ACTIVE") {
-		states.state->MH_Conf_ACTIVE();
+		states.get_state()->MH_Conf_ACTIVE();
 		assert_state_and_transition(expected_state);
 	}
 	else if(event == "MH_Conf_INACTIVE") {
-		states.state->MH_Conf_INACTIVE();
+		states.get_state()->MH_Conf_INACTIVE();
 		assert_state_and_transition(expected_state);
 	}
 	else if(event == "PL_Transfer_ind") {
-		states.state->PL_Transfer_ind(42);
+		states.get_state()->PL_Transfer_ind(42);
 		assert_state_and_transition(expected_state);
 	}
 	else {

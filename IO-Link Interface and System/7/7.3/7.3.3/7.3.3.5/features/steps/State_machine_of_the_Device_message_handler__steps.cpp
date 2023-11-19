@@ -115,6 +115,14 @@ THEN("^Result State is (.+)$") {
 		states.state->MH_Conf_ACTIVE();
 		assert_state_and_transition(expected_state);
 	}
+	else if(event == "MH_Conf_INACTIVE") {
+		states.state->MH_Conf_INACTIVE();
+		assert_state_and_transition(expected_state);
+	}
+	else if(event == "PL_Transfer_ind") {
+		states.state->PL_Transfer_ind(42);
+		assert_state_and_transition(expected_state);
+	}
 	else {
 		FAIL() << "unknown event";
 	}

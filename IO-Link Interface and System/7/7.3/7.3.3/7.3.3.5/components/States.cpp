@@ -93,10 +93,30 @@ namespace State_machine_of_the_Device_message_handler {
 
 	States::State::State(States* states, ITransitions* transitions): states(states), transitions(transitions) { }
 
-	void States::State::MH_Conf_ACTIVE () {
+	void States::State::MH_Conf_ACTIVE() {
 		if(states->state == states->Inactive_0) {
 			transitions->T1();
 			states->state = states->Idle_1;
 		}
+	}
+
+	void States::State::MH_Conf_INACTIVE() {
+		if(states->state == states->Idle_1) {
+			transitions->T11();
+			states->state = states->Inactive_0;
+		}
+	}
+
+	void States::State::PL_Transfer_req(uint8_t Data) {
+		(void)Data;
+	}
+	
+	PL_Transfer::Status States::State::PL_Transfer_ind(uint8_t Data) {
+		if(states->state == states->Idle_1) {
+			transitions->T2();
+			states->state = states->GetMessage_2;
+		}
+		(void)Data; //TODO: was soll mit den Daten geschehen?
+		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?
 	}
 }

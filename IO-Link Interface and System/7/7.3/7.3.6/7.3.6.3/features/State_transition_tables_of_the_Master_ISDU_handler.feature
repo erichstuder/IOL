@@ -1,5 +1,5 @@
 # language: en
-Feature: State machine of the Master ISDU handler
+Feature: State transition tables of the Master ISDU handler
 	Scenario: T1
 		When T1
 		Then no Action

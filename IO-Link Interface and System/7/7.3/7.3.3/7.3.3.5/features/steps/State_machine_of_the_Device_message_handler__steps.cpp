@@ -44,6 +44,9 @@ GIVEN("^State is (.+)$") {
 	if(data == "Inactive_0") {
 		states.state = states.Inactive_0;
 	}
+	else if(data == "Idle_1") {
+		states.state = states.Idle_1;
+	}
 	else {
 		FAIL() << "unknown State";
 	}
@@ -111,5 +114,8 @@ THEN("^Result State is (.+)$") {
 	else if(event == "MH_Conf_ACTIVE") {
 		states.state->MH_Conf_ACTIVE();
 		assert_state_and_transition(expected_state);
+	}
+	else {
+		FAIL() << "unknown event";
 	}
 }

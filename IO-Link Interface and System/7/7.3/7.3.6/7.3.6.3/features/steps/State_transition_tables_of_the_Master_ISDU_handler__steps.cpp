@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "components/Transitions.h"
+#include "../../components/Transitions.h"
 
 using std::string;
 

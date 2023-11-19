@@ -28,8 +28,15 @@ class Transitions_mock: public ITransitions {
 		}
 };
 
+class Timer_mock: public ITimer {
+	public:
+		void start(float time_ms) {(void)time_ms;}
+		void stop() {}
+};
+
 static Transitions_mock* transitions_mock = new Transitions_mock();
-static States states(transitions_mock);
+static Timer_mock* timer_mock = new Timer_mock();
+static States states(transitions_mock, timer_mock);
 static States::Guard guard;
 static unsigned int expected_transiton_number;
 static string event;

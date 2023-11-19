@@ -2,6 +2,8 @@
 
 #include "ITransitions.h"
 #include "PL_Transfer.h"
+#include "Behavioral_description.h"
+#include "ITimer.h"
 
 namespace State_machine_of_the_Device_message_handler {
 	class States {
@@ -14,11 +16,14 @@ namespace State_machine_of_the_Device_message_handler {
 				NoGuard
 			};
 
-			class State: public PL_Transfer {
+			class State: public PL_Transfer, public Behavioral_description {
 				public:
 					State(States* states, ITransitions* transitions);
 					virtual State* tick(Guard guard) = 0;
-					virtual void entry() {};
+					void enter() {};
+					void exit() {};
+
+					void tm_event() {};
 
 					void MH_Conf_ACTIVE();
 					void MH_Conf_INACTIVE();
@@ -35,8 +40,9 @@ namespace State_machine_of_the_Device_message_handler {
 			State* const GetMessage_2;
 			State* const CheckMessage_3;
 			State* const CreateMessage_4;
+			ITimer* const timer;
 
-			States(ITransitions* transitions);
+			States(ITransitions* transitions, ITimer* timer);
 			State* get_state();
 			void change_state(State* state);
 

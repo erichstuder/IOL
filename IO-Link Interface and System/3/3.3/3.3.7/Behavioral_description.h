@@ -2,5 +2,5 @@
 
 class Behavioral_description {
 	public:
-		virtual void tm(float time_ms) = 0;
+		virtual void tm_event() = 0;
 };

@@ -28,8 +28,18 @@ namespace State_machine_of_the_Device_message_handler {
 				return this;
 			}
 
-			void entry() {
+			void enter() {
 				//start timer
+			}
+
+			void exit() {
+				//stop timer
+			}
+
+			void tm(float time_ms) {
+				(void)time_ms;
+				transitions->T10();
+				states->change_state(states->Idle_1);
 			}
 
 			/*State* handle_event(States::Event event, States::Guard guard) {
@@ -87,20 +97,22 @@ namespace State_machine_of_the_Device_message_handler {
 			}*/
 	};
 
-	States::States(ITransitions* transitions):
+	States::States(ITransitions* transitions, ITimer* timer):
 		Inactive_0(new _Inactive_0(this, transitions)),
 		Idle_1(new _Idle_1(this, transitions)),
 		GetMessage_2(new _GetMessage_2(this, transitions)),
 		CheckMessage_3(new _CheckMessage_3(this, transitions)),
-		CreateMessage_4(new _CreateMessage_4(this, transitions)) { }
+		CreateMessage_4(new _CreateMessage_4(this, transitions)),
+		timer(timer) { }
 
 	States::State* States::get_state() {
 		return state;
 	}
 
 	void States::change_state(State* state) {
+		this->state->exit();
 		this->state = state;
-		this->state->entry();
+		this->state->enter();
 	}
 
 

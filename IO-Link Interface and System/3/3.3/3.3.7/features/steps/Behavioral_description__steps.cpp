@@ -2,31 +2,29 @@
 #include <cucumber-cpp/autodetect.hpp>
 
 #include "Behavioral_description.h"
+#include "ITimer.h"
 
 using std::string;
 
 class Behavioral_description_mock: public Behavioral_description {
 	public:
-		void tm(float time_ms) {
-			(void)time_ms;
-		}
+		void tm_event() {}
 };
 
-Behavioral_description_mock mock;
+class Timer_mock: public ITimer {
+	public:
+		void start(float time_ms) {
+			(void)time_ms;
+		}
 
-/*THEN("^State is (.+)$") {
-	REGEX_PARAM(string, data);
-	if(data == "Inactive_0") {
-		states.state = states.Inactive_0;
-	}
-	else if(data == "Idle_1") {
-		states.state = states.Idle_1;
-	}
-	else {
-		FAIL() << "unknown State";
-	}
-}*/
+		void stop() {}
+};
+
+Behavioral_description_mock behavioral_mock;
+Timer_mock timer_mock;
 
 THEN("^Timing constraints are labelled \"tm\\(time in ms\\)\"$") {
-	mock.tm(23.1582);
+	timer_mock.start(23.1582);
+	timer_mock.stop();
+	behavioral_mock.tm_event();
 }

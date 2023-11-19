@@ -18,6 +18,7 @@ namespace State_machine_of_the_Device_message_handler {
 				public:
 					State(States* states, ITransitions* transitions);
 					virtual State* tick(Guard guard) = 0;
+					virtual void entry() {};
 
 					void MH_Conf_ACTIVE();
 					void MH_Conf_INACTIVE();
@@ -34,8 +35,12 @@ namespace State_machine_of_the_Device_message_handler {
 			State* const GetMessage_2;
 			State* const CheckMessage_3;
 			State* const CreateMessage_4;
-			State* state;
 
 			States(ITransitions* transitions);
+			State* get_state();
+			void change_state(State* state);
+
+		private:
+			State* state;
 	};
 }

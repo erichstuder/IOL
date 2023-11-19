@@ -28,6 +28,10 @@ namespace State_machine_of_the_Device_message_handler {
 				return this;
 			}
 
+			void entry() {
+				//start timer
+			}
+
 			/*State* handle_event(States::Event event, States::Guard guard) {
 				(void)guard;
 				(void)event;
@@ -90,31 +94,40 @@ namespace State_machine_of_the_Device_message_handler {
 		CheckMessage_3(new _CheckMessage_3(this, transitions)),
 		CreateMessage_4(new _CreateMessage_4(this, transitions)) { }
 
+	States::State* States::get_state() {
+		return state;
+	}
+
+	void States::change_state(State* state) {
+		this->state = state;
+		this->state->entry();
+	}
+
 
 	States::State::State(States* states, ITransitions* transitions): states(states), transitions(transitions) { }
 
 	void States::State::MH_Conf_ACTIVE() {
-		if(states->state == states->Inactive_0) {
+		if(states->get_state() == states->Inactive_0) {
 			transitions->T1();
-			states->state = states->Idle_1;
+			states->change_state(states->Idle_1);
 		}
 	}
 
 	void States::State::MH_Conf_INACTIVE() {
-		if(states->state == states->Idle_1) {
+		if(states->get_state() == states->Idle_1) {
 			transitions->T11();
-			states->state = states->Inactive_0;
+			states->change_state(states->Inactive_0);
 		}
 	}
 
 	void States::State::PL_Transfer_req(uint8_t Data) {
-		(void)Data;
+		(void)Data; //TODO: was soll mit den Daten geschehen?
 	}
 	
 	PL_Transfer::Status States::State::PL_Transfer_ind(uint8_t Data) {
-		if(states->state == states->Idle_1) {
+		if(states->get_state() == states->Idle_1) {
 			transitions->T2();
-			states->state = states->GetMessage_2;
+			states->change_state(states->GetMessage_2);
 		}
 		(void)Data; //TODO: was soll mit den Daten geschehen?
 		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?

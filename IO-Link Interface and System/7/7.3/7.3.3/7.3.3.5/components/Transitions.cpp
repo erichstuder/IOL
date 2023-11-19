@@ -1,6 +1,6 @@
 #include "Transitions.h"
 
-/*namespace State_machine_of_the_Device_message_handler {
+namespace State_machine_of_the_Device_message_handler {
 	void Transitions::T1() {}
 	void Transitions::T2() {}
 	void Transitions::T3() {}
@@ -12,4 +12,4 @@
 	void Transitions::T9() {}
 	void Transitions::T10() {}
 	void Transitions::T11() {}
-}*/
+}

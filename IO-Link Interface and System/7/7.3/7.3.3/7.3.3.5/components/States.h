@@ -5,12 +5,12 @@
 namespace State_machine_of_the_Device_message_handler {
 	class States {
 		public:
-			enum class Event {
+			/*enum class Event {  //TODO: vermutlich kann das weg
 				dummy
-			};
+			};*/
 
 			enum class Guard {
-				dummy
+				NoGuard
 			};
 
 			class State {
@@ -18,10 +18,7 @@ namespace State_machine_of_the_Device_message_handler {
 					State(States* states, ITransitions* transitions);
 					virtual State* tick(Guard guard) = 0;
 
-					/*void AL_Read_req(uint8_t Port, uint16_t Index, uint8_t Subindex);
-					void AL_Read_ind(uint16_t Index, uint8_t Subindex);
-					Result_type AL_Read_rsp();
-					Result_type AL_Read_cnf();*/
+					void MH_Conf_ACTIVE();
 				protected:
 					States* states;
 					ITransitions* transitions;

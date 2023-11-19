@@ -2,10 +2,10 @@
 Feature: State machine of the Device message handler
 	Scenario Outline: States
 		Given State is <State>
-		#* Event is <Event>
-		#* Guard is <Guard>
-		#Then Transition is <Transition>
-		#And Result State is <Result State>
+		* Event is <Event>
+		* Guard is <Guard>
+		Then Transition is <Transition>
+		And Result State is <Result State>
 
 	Examples:
 		| State      | Event          | Guard | Transition | Result State |

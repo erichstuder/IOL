@@ -1,5 +1,6 @@
 #include "States.h"
 #include "ITransitions.h"
+#include <cstddef>
 
 namespace State_machine_of_the_Device_message_handler {
 
@@ -28,16 +29,15 @@ namespace State_machine_of_the_Device_message_handler {
 				return this;
 			}
 
-			void enter() {
-				//start timer
+			void enter() override {
+				states->timer->start(states->MaxCycleTime_ms);
 			}
 
-			void exit() {
-				//stop timer
+			void exit() override {
+				states->timer->stop();
 			}
 
-			void tm(float time_ms) {
-				(void)time_ms;
+			void tm_event() override {
 				transitions->T10();
 				states->change_state(states->Idle_1);
 			}
@@ -110,7 +110,9 @@ namespace State_machine_of_the_Device_message_handler {
 	}
 
 	void States::change_state(State* state) {
-		this->state->exit();
+		if(this->state != NULL) {
+			this->state->exit();
+		}
 		this->state = state;
 		this->state->enter();
 	}

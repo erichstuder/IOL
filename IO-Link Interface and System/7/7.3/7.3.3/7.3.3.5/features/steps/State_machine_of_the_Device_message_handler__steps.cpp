@@ -30,8 +30,21 @@ class Transitions_mock: public ITransitions {
 
 class Timer_mock: public ITimer {
 	public:
-		void start(float time_ms) {(void)time_ms;}
-		void stop() {}
+		float time_ms;
+		bool stop_was_called;
+
+		void start(float time_ms) override {
+			this->time_ms = time_ms;
+		}
+
+		void stop() override {
+			this->stop_was_called = true;
+		}
+
+		void reset() {
+			time_ms = 0;
+			stop_was_called = false;
+		}
 };
 
 static Transitions_mock* transitions_mock = new Transitions_mock();
@@ -44,6 +57,7 @@ static string event;
 
 BEFORE() {
 	transitions_mock->reset();
+	timer_mock->reset();
 }
 
 GIVEN("^State is (.+)$") {
@@ -114,6 +128,7 @@ static void assert_state_and_transition(const string expected_state) {
 
 THEN("^Result State is (.+)$") {
 	REGEX_PARAM(string, expected_state);
+	(void)expected_state;
 
 	if(event == "-") {
 		// TODO:what todo? result_state = state->handle_event(event, guard);
@@ -124,6 +139,14 @@ THEN("^Result State is (.+)$") {
 	}
 	else if(event == "MH_Conf_INACTIVE") {
 		states.get_state()->MH_Conf_INACTIVE();
+		assert_state_and_transition(expected_state);
+	}
+	else if(event == "tm(MaxCycleTime)") {
+		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
+		EXPECT_FALSE(timer_mock->stop_was_called);
+		states.get_state()->tm_event();
+		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
+		EXPECT_TRUE(timer_mock->stop_was_called);
 		assert_state_and_transition(expected_state);
 	}
 	else if(event == "PL_Transfer_ind") {

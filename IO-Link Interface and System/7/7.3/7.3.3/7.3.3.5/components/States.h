@@ -8,18 +8,18 @@
 namespace State_machine_of_the_Device_message_handler {
 	class States {
 		public:
-			/*enum class Event {  //TODO: vermutlich kann das weg
-				dummy
-			};*/
-
 			enum class Guard {
-				NoGuard
+				NoGuard,
+				Completed,
+				No_error,
+				ChecksumError,
+				TypeError_and_not_ChecksumError
 			};
 
 			class State: public PL_Transfer, public Behavioral_description {
 				public:
 					State(States* states, ITransitions* transitions);
-					virtual State* tick(Guard guard) = 0;
+					virtual void tick(Guard guard) { (void)guard; };
 					virtual void enter() {};
 					virtual void exit() {};
 
@@ -41,7 +41,8 @@ namespace State_machine_of_the_Device_message_handler {
 			State* const CheckMessage_3;
 			State* const CreateMessage_4;
 			ITimer* const timer;
-			float MaxCycleTime_ms = 42.8; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
+			const float MaxCycleTime_ms = 42.8; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
+			const float MaxUARTframeTime = 88.9; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
 
 			States(ITransitions* transitions, ITimer* timer);
 			State* get_state();

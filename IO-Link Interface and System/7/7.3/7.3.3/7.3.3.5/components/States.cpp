@@ -6,28 +6,12 @@ namespace State_machine_of_the_Device_message_handler {
 
 	class _Inactive_0: public States::State {
 		public:
-			_Inactive_0(States* states, ITransitions* transitions) : State(states, transitions) { }
-
-			State* tick(States::Guard guard) {
-				(void)guard;
-				return this;
-			}
-
-			/*State* handle_event(States::Event event, States::Guard guard) {
-				(void)event;
-				(void)guard;
-				return this;
-			}*/
+			_Inactive_0(States* states, ITransitions* transitions) : State(states, transitions) {}
 	};
 
 	class _Idle_1: public States::State {
 		public:
-			_Idle_1(States* states, ITransitions* transitions) : State(states, transitions) { }
-
-			State* tick(States::Guard guard) {
-				(void)guard;
-				return this;
-			}
+			_Idle_1(States* states, ITransitions* transitions) : State(states, transitions) {}
 
 			void enter() override {
 				states->timer->start(states->MaxCycleTime_ms);
@@ -41,60 +25,60 @@ namespace State_machine_of_the_Device_message_handler {
 				transitions->T10();
 				states->change_state(states->Idle_1);
 			}
-
-			/*State* handle_event(States::Event event, States::Guard guard) {
-				(void)guard;
-				(void)event;
-				return this;
-			}*/
 	};
 
 	class _GetMessage_2: public States::State {
 		public:
-			_GetMessage_2(States* states, ITransitions* transitions) : State(states, transitions) { }
+			_GetMessage_2(States* states, ITransitions* transitions) : State(states, transitions) {}
 
-			State* tick(States::Guard guard) {
-				(void)guard;
-				return this;
+			void tick(States::Guard guard) override {
+				if(guard == States::Guard::Completed) {
+					transitions->T4();
+					states->change_state(states->CheckMessage_3);
+				}
 			}
 
-			/*State* handle_event(States::Event event, States::Guard guard) {
-				(void)guard;
-				(void)event;
-				return this;
-			}*/
+			void enter() override {
+				states->timer->start(states->MaxUARTframeTime);
+			}
+
+			void exit() override {
+				states->timer->stop();
+			}
+
+			void tm_event() override {
+				transitions->T9();
+				states->change_state(states->Idle_1);
+			}
 	};
 
 	class _CheckMessage_3: public States::State {
 		public:
-			_CheckMessage_3(States* states, ITransitions* transitions) : State(states, transitions) { }
+			_CheckMessage_3(States* states, ITransitions* transitions) : State(states, transitions) {}
 
-			State* tick(States::Guard guard) {
-				(void)guard;
-				return this;
+			void tick(States::Guard guard) override {
+				switch(guard) {
+					case States::Guard::No_error:
+						transitions->T5();
+						states->change_state(states->CreateMessage_4);
+						return;
+					case States::Guard::ChecksumError:
+						transitions->T7();
+						states->change_state(states->Idle_1);
+						return;
+					case States::Guard::TypeError_and_not_ChecksumError:
+						transitions->T8();
+						states->change_state(states->Idle_1);
+						return;
+					default:
+						return;
+				}
 			}
-
-			/*State* handle_event(States::Event event, States::Guard guard) {
-				(void)guard;
-				(void)event;
-				return this;
-			}*/
 	};
 
 	class _CreateMessage_4: public States::State {
 		public:
-			_CreateMessage_4(States* states, ITransitions* transitions) : State(states, transitions) { }
-
-			State* tick(States::Guard guard) {
-				(void)guard;
-				return this;
-			}
-
-			/*State* handle_event(States::Event event, States::Guard guard) {
-				(void)guard;
-				(void)event;
-				return this;
-			}*/
+			_CreateMessage_4(States* states, ITransitions* transitions) : State(states, transitions) {}
 	};
 
 	States::States(ITransitions* transitions, ITimer* timer):
@@ -118,7 +102,7 @@ namespace State_machine_of_the_Device_message_handler {
 	}
 
 
-	States::State::State(States* states, ITransitions* transitions): states(states), transitions(transitions) { }
+	States::State::State(States* states, ITransitions* transitions): states(states), transitions(transitions) {}
 
 	void States::State::MH_Conf_ACTIVE() {
 		if(states->get_state() == states->Inactive_0) {
@@ -135,6 +119,10 @@ namespace State_machine_of_the_Device_message_handler {
 	}
 
 	void States::State::PL_Transfer_req(uint8_t Data) {
+		if(states->get_state() == states->GetMessage_2) {
+			transitions->T3();
+			states->change_state(states->GetMessage_2);
+		} 
 		(void)Data; //TODO: was soll mit den Daten geschehen?
 	}
 	

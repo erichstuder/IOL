@@ -68,6 +68,12 @@ GIVEN("^State is (.+)$") {
 	else if(data == "Idle_1") {
 		states.change_state(states.Idle_1);
 	}
+	else if(data == "GetMessage_2") {
+		states.change_state(states.GetMessage_2);
+	}
+	else if(data == "CheckMessage_3") {
+		states.change_state(states.CheckMessage_3);
+	}
 	else {
 		FAIL() << "unknown State";
 	}
@@ -82,6 +88,18 @@ GIVEN("^Guard is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "-") {
 		guard = States::Guard::NoGuard;
+	}
+	else if(data == "Completed") {
+		guard = States::Guard::Completed;
+	}
+	else if(data == "No error") {
+		guard = States::Guard::No_error;
+	}
+	else if(data == "ChecksumError") {
+		guard = States::Guard::ChecksumError;
+	}
+	else if(data == "TypeError and not ChecksumError") {
+		guard = States::Guard::TypeError_and_not_ChecksumError;
 	}
 	else {
 		FAIL() << "unknown Guard";
@@ -131,29 +149,36 @@ THEN("^Result State is (.+)$") {
 	(void)expected_state;
 
 	if(event == "-") {
-		// TODO:what todo? result_state = state->handle_event(event, guard);
+		states.get_state()->tick(guard);
 	}
 	else if(event == "MH_Conf_ACTIVE") {
 		states.get_state()->MH_Conf_ACTIVE();
-		assert_state_and_transition(expected_state);
 	}
 	else if(event == "MH_Conf_INACTIVE") {
 		states.get_state()->MH_Conf_INACTIVE();
-		assert_state_and_transition(expected_state);
 	}
 	else if(event == "tm(MaxCycleTime)") {
 		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
-		EXPECT_FALSE(timer_mock->stop_was_called);
+		timer_mock->reset();
 		states.get_state()->tm_event();
 		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
 		EXPECT_TRUE(timer_mock->stop_was_called);
-		assert_state_and_transition(expected_state);
+	}
+	else if(event == "tm(MaxUARTframeTime)") {
+		EXPECT_EQ(timer_mock->time_ms, states.MaxUARTframeTime);
+		timer_mock->reset();
+		states.get_state()->tm_event();
+		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
+		EXPECT_TRUE(timer_mock->stop_was_called);
+	}
+	else if(event == "PL_Transfer_req") {
+		states.get_state()->PL_Transfer_req(42);
 	}
 	else if(event == "PL_Transfer_ind") {
 		states.get_state()->PL_Transfer_ind(42);
-		assert_state_and_transition(expected_state);
 	}
 	else {
 		FAIL() << "unknown event";
 	}
+	assert_state_and_transition(expected_state);
 }

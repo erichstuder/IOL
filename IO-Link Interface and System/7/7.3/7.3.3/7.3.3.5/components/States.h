@@ -13,7 +13,8 @@ namespace State_machine_of_the_Device_message_handler {
 				Completed,
 				No_error,
 				ChecksumError,
-				TypeError_and_not_ChecksumError
+				TypeError_and_not_ChecksumError,
+				Ready
 			};
 
 			class State: public PL_Transfer, public Behavioral_description {

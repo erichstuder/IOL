@@ -79,6 +79,13 @@ namespace State_machine_of_the_Device_message_handler {
 	class _CreateMessage_4: public States::State {
 		public:
 			_CreateMessage_4(States* states, ITransitions* transitions) : State(states, transitions) {}
+
+			void tick(States::Guard guard) override {
+				if(guard == States::Guard::Ready) {
+					transitions->T6();
+					states->change_state(states->Idle_1);
+				}
+			}
 	};
 
 	States::States(ITransitions* transitions, ITimer* timer):

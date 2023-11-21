@@ -74,6 +74,9 @@ GIVEN("^State is (.+)$") {
 	else if(data == "CheckMessage_3") {
 		states.change_state(states.CheckMessage_3);
 	}
+	else if(data == "CreateMessage_4") {
+		states.change_state(states.CreateMessage_4);
+	}
 	else {
 		FAIL() << "unknown State";
 	}
@@ -100,6 +103,9 @@ GIVEN("^Guard is (.+)$") {
 	}
 	else if(data == "TypeError and not ChecksumError") {
 		guard = States::Guard::TypeError_and_not_ChecksumError;
+	}
+	else if(data == "Ready") {
+		guard = States::Guard::Ready;
 	}
 	else {
 		FAIL() << "unknown Guard";

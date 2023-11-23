@@ -47,9 +47,11 @@ class Timer_mock: public ITimer {
 		}
 };
 
-static Transitions_mock* transitions_mock = new Transitions_mock();
 static Timer_mock* timer_mock = new Timer_mock();
-static States states(transitions_mock, timer_mock);
+static Administration* administration = new Administration(timer_mock);
+static Transitions_mock* transitions_mock = new Transitions_mock();
+
+static States states(administration, transitions_mock);
 static States::Guard guard;
 static unsigned int expected_transiton_number;
 static string event;

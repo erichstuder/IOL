@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Administration.h"
 #include "ITransitions.h"
 #include "PL_Transfer.h"
 #include "Behavioral_description.h"
-#include "ITimer.h"
 
 namespace State_machine_of_the_Device_message_handler {
 	class States {
@@ -19,7 +19,11 @@ namespace State_machine_of_the_Device_message_handler {
 
 			class State: public PL_Transfer, public Behavioral_description {
 				public:
-					State(States* states, ITransitions* transitions);
+					State(States* states, ITransitions* transitions, Administration* administration):
+						states(states),
+						transitions(transitions),
+						administration(administration){}
+
 					virtual void tick(Guard guard) { (void)guard; };
 					virtual void enter() {};
 					virtual void exit() {};
@@ -34,6 +38,7 @@ namespace State_machine_of_the_Device_message_handler {
 				protected:
 					States* states;
 					ITransitions* transitions;
+					Administration* administration;
 			};
 
 			State* const Inactive_0;
@@ -41,11 +46,10 @@ namespace State_machine_of_the_Device_message_handler {
 			State* const GetMessage_2;
 			State* const CheckMessage_3;
 			State* const CreateMessage_4;
-			ITimer* const timer;
 			const float MaxCycleTime_ms = 42.8; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
 			const float MaxUARTframeTime = 88.9; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
 
-			States(ITransitions* transitions, ITimer* timer);
+			States(Administration* administration, ITransitions* transitions);
 			State* get_state();
 			void change_state(State* state);
 

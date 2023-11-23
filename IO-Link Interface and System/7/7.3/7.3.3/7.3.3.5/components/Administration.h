@@ -5,8 +5,9 @@
 namespace State_machine_of_the_Device_message_handler {
 	class Administration {
 		public:
-			Administration(ITimer* timer);
+			Administration(ITimer* MaxUARTframeTime_timer, ITimer* MaxCycleTime_timer);
 
-			ITimer* const timer;
+			ITimer* const MaxUARTframeTime_timer;
+			ITimer* const MaxCycleTime_timer;
 	};
 }

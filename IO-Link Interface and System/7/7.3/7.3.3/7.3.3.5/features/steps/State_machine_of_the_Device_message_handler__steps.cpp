@@ -30,8 +30,7 @@ class Transitions_mock: public ITransitions {
 
 class Timer_mock: public ITimer {
 	public:
-		void start(float time_ms) override {
-			(void)time_ms;
+		void start() override {
 			FAIL() << "Timer_mock start";
 		}
 
@@ -41,7 +40,7 @@ class Timer_mock: public ITimer {
 };
 
 static Timer_mock* timer_mock = new Timer_mock();
-static Administration* administration = new Administration(timer_mock);
+static Administration* administration = new Administration(timer_mock, timer_mock);
 static Transitions_mock* transitions_mock = new Transitions_mock();
 
 static States states(administration, transitions_mock);

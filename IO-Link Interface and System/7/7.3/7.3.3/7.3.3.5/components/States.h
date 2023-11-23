@@ -25,8 +25,6 @@ namespace State_machine_of_the_Device_message_handler {
 						administration(administration){}
 
 					virtual void tick(Guard guard) { (void)guard; };
-					virtual void enter() {};
-					virtual void exit() {};
 
 					void tm_event() override {};
 
@@ -50,10 +48,7 @@ namespace State_machine_of_the_Device_message_handler {
 			const float MaxUARTframeTime = 88.9; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
 
 			States(Administration* administration, ITransitions* transitions);
-			State* get_state();
-			void change_state(State* state);
 
-		private:
 			State* state;
 	};
 }

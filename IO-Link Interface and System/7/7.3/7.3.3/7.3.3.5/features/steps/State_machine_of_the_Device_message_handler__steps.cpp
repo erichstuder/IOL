@@ -30,20 +30,13 @@ class Transitions_mock: public ITransitions {
 
 class Timer_mock: public ITimer {
 	public:
-		float time_ms;
-		bool stop_was_called;
-
 		void start(float time_ms) override {
-			this->time_ms = time_ms;
+			(void)time_ms;
+			FAIL() << "Timer_mock start";
 		}
 
 		void stop() override {
-			this->stop_was_called = true;
-		}
-
-		void reset() {
-			time_ms = 0;
-			stop_was_called = false;
+			FAIL() << "Timer_mock stop";
 		}
 };
 
@@ -59,25 +52,24 @@ static string event;
 
 BEFORE() {
 	transitions_mock->reset();
-	timer_mock->reset();
 }
 
 GIVEN("^State is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "Inactive_0") {
-		states.change_state(states.Inactive_0);
+		states.state = states.Inactive_0;
 	}
 	else if(data == "Idle_1") {
-		states.change_state(states.Idle_1);
+		states.state = states.Idle_1;
 	}
 	else if(data == "GetMessage_2") {
-		states.change_state(states.GetMessage_2);
+		states.state = states.GetMessage_2;
 	}
 	else if(data == "CheckMessage_3") {
-		states.change_state(states.CheckMessage_3);
+		states.state = states.CheckMessage_3;
 	}
 	else if(data == "CreateMessage_4") {
-		states.change_state(states.CreateMessage_4);
+		states.state = states.CreateMessage_4;
 	}
 	else {
 		FAIL() << "unknown State";
@@ -132,19 +124,19 @@ THEN("^Transition is (.+)$") {
 
 static void assert_state_and_transition(const string expected_state) {
 	if(expected_state == "Inactive_0") {
-		EXPECT_EQ(states.get_state(), states.Inactive_0);
+		EXPECT_EQ(states.state, states.Inactive_0);
 	}
 	else if(expected_state == "Idle_1") {
-		EXPECT_EQ(states.get_state(), states.Idle_1);
+		EXPECT_EQ(states.state, states.Idle_1);
 	}
 	else if(expected_state == "GetMessage_2") {
-		EXPECT_EQ(states.get_state(), states.GetMessage_2);
+		EXPECT_EQ(states.state, states.GetMessage_2);
 	}
 	else if(expected_state == "CheckMessage_3") {
-		EXPECT_EQ(states.get_state(), states.CheckMessage_3);
+		EXPECT_EQ(states.state, states.CheckMessage_3);
 	}
 	else if(expected_state == "CreateMessage_4") {
-		EXPECT_EQ(states.get_state(), states.CreateMessage_4);
+		EXPECT_EQ(states.state, states.CreateMessage_4);
 	}
 	else {
 		FAIL() << "unknown Result State";
@@ -157,33 +149,25 @@ THEN("^Result State is (.+)$") {
 	(void)expected_state;
 
 	if(event == "-") {
-		states.get_state()->tick(guard);
+		states.state->tick(guard);
 	}
 	else if(event == "MH_Conf_ACTIVE") {
-		states.get_state()->MH_Conf_ACTIVE();
+		states.state->MH_Conf_ACTIVE();
 	}
 	else if(event == "MH_Conf_INACTIVE") {
-		states.get_state()->MH_Conf_INACTIVE();
+		states.state->MH_Conf_INACTIVE();
 	}
 	else if(event == "tm(MaxCycleTime)") {
-		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
-		timer_mock->reset();
-		states.get_state()->tm_event();
-		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
-		EXPECT_TRUE(timer_mock->stop_was_called);
+		states.state->tm_event();
 	}
 	else if(event == "tm(MaxUARTframeTime)") {
-		EXPECT_EQ(timer_mock->time_ms, states.MaxUARTframeTime);
-		timer_mock->reset();
-		states.get_state()->tm_event();
-		EXPECT_EQ(timer_mock->time_ms, states.MaxCycleTime_ms);
-		EXPECT_TRUE(timer_mock->stop_was_called);
+		states.state->tm_event();
 	}
 	else if(event == "PL_Transfer_req") {
-		states.get_state()->PL_Transfer_req(42);
+		states.state->PL_Transfer_req(42);
 	}
 	else if(event == "PL_Transfer_ind") {
-		states.get_state()->PL_Transfer_ind(42);
+		states.state->PL_Transfer_ind(42);
 	}
 	else {
 		FAIL() << "unknown event";

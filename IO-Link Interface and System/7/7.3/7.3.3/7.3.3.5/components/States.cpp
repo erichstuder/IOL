@@ -15,17 +15,9 @@ namespace State_machine_of_the_Device_message_handler {
 			_Idle_1(States* states, ITransitions* transitions, Administration* administration):
 				State(states, transitions, administration) {}
 
-			void enter() override {
-				administration->timer->start(states->MaxCycleTime_ms);
-			}
-
-			void exit() override {
-				administration->timer->stop();
-			}
-
 			void tm_event() override {
 				transitions->T10();
-				states->change_state(states->Idle_1);
+				states->state = states->Idle_1;
 			}
 	};
 
@@ -37,21 +29,13 @@ namespace State_machine_of_the_Device_message_handler {
 			void tick(States::Guard guard) override {
 				if(guard == States::Guard::Completed) {
 					transitions->T4();
-					states->change_state(states->CheckMessage_3);
+					states->state = states->CheckMessage_3;
 				}
-			}
-
-			void enter() override {
-				administration->timer->start(states->MaxUARTframeTime);
-			}
-
-			void exit() override {
-				administration->timer->stop();
 			}
 
 			void tm_event() override {
 				transitions->T9();
-				states->change_state(states->Idle_1);
+				states->state = states->Idle_1;
 			}
 	};
 
@@ -64,15 +48,15 @@ namespace State_machine_of_the_Device_message_handler {
 				switch(guard) {
 					case States::Guard::No_error:
 						transitions->T5();
-						states->change_state(states->CreateMessage_4);
+						states->state = states->CreateMessage_4;
 						return;
 					case States::Guard::ChecksumError:
 						transitions->T7();
-						states->change_state(states->Idle_1);
+						states->state = states->Idle_1;
 						return;
 					case States::Guard::TypeError_and_not_ChecksumError:
 						transitions->T8();
-						states->change_state(states->Idle_1);
+						states->state = states->Idle_1;
 						return;
 					default:
 						return;
@@ -88,7 +72,7 @@ namespace State_machine_of_the_Device_message_handler {
 			void tick(States::Guard guard) override {
 				if(guard == States::Guard::Ready) {
 					transitions->T6();
-					states->change_state(states->Idle_1);
+					states->state = states->Idle_1;
 				}
 			}
 	};
@@ -100,44 +84,33 @@ namespace State_machine_of_the_Device_message_handler {
 		CheckMessage_3(new _CheckMessage_3(this, transitions, administration)),
 		CreateMessage_4(new _CreateMessage_4(this, transitions, administration)){}
 
-	States::State* States::get_state() {
-		return state;
-	}
-
-	void States::change_state(State* state) {
-		if(this->state != NULL) {
-			this->state->exit();
-		}
-		this->state = state;
-		this->state->enter();
-	}
 
 	void States::State::MH_Conf_ACTIVE() {
-		if(states->get_state() == states->Inactive_0) {
+		if(states->state == states->Inactive_0) {
 			transitions->T1();
-			states->change_state(states->Idle_1);
+			states->state = states->Idle_1;
 		}
 	}
 
 	void States::State::MH_Conf_INACTIVE() {
-		if(states->get_state() == states->Idle_1) {
+		if(states->state == states->Idle_1) {
 			transitions->T11();
-			states->change_state(states->Inactive_0);
+			states->state = states->Inactive_0;
 		}
 	}
 
 	void States::State::PL_Transfer_req(uint8_t Data) {
-		if(states->get_state() == states->GetMessage_2) {
+		if(states->state == states->GetMessage_2) {
 			transitions->T3();
-			states->change_state(states->GetMessage_2);
+			states->state = states->GetMessage_2;
 		} 
 		(void)Data; //TODO: was soll mit den Daten geschehen?
 	}
 	
 	PL_Transfer::Status States::State::PL_Transfer_ind(uint8_t Data) {
-		if(states->get_state() == states->Idle_1) {
+		if(states->state == states->Idle_1) {
 			transitions->T2();
-			states->change_state(states->GetMessage_2);
+			states->state = states->GetMessage_2;
 		}
 		(void)Data; //TODO: was soll mit den Daten geschehen?
 		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?

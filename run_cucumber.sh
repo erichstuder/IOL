@@ -5,6 +5,7 @@ TAG=$(echo ${PWD:1} | tr '[:upper:]' '[:lower:]' | tr -d '[:space:]')
 VOLUME_DIR=/usr/software
 
 cmake_command='
+	set -e
 	cmake '${VOLUME_DIR}'
 	cmake --build .'
 

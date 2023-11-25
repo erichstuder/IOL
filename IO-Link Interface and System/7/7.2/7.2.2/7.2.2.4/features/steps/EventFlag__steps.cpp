@@ -4,9 +4,6 @@
 #include "EventFlag_ind.h"
 #include "EventFlag_req.h"
 
-//using std::string;
-
-
 class EventFlag_mock:
 	public EventFlag_ind__Interface,
 	public EventFlag_req__Interface

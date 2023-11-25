@@ -1,28 +1,56 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "OD.h"
+#include "OD_req.h"
+#include "OD_ind.h"
+#include "OD_rsp.h"
+#include "OD_cnf.h"
 
 using std::string;
 
-OD od;
+class OD_mock:
+	public OD_req__Interface,
+	public OD_ind__Interface,
+	public OD_rsp__Interface,
+	public OD_cnf__Interface
+{
+	public:
+		void OD_req(OD::Argument_type Argument) override {
+			(void)Argument;
+		}
+
+		void OD_ind(OD::Argument_type Argument) override {
+			(void)Argument;
+		}
+		
+		OD::Result_type OD_rsp() override {
+			return OD::Result_type(55);
+		}
+		
+		OD::Result_type OD_cnf() override {
+			return OD::Result_type(0);
+		}
+};
+
+
+OD_mock od;
 
 THEN("^\\.req has Argument: yes") {
 	OD::Argument_type Argument;
-	od.req(Argument);
+	od.OD_req(Argument);
 }
 
 THEN("^\\.ind has Argument: yes") {
 	OD::Argument_type Argument;
-	od.ind(Argument);
+	od.OD_ind(Argument);
 }
 
 THEN("^\\.rsp has Argument: no") {
-	od.rsp();
+	od.OD_rsp();
 }
 
 THEN("^\\.cnf has Argument: no") {
-	od.cnf();
+	od.OD_cnf();
 }
 
 THEN("^\\.req has Result: no$") {
@@ -34,12 +62,12 @@ THEN("^\\.ind has Result: no$") {
 }
 
 THEN("^\\.rsp has Result: yes$") {
-	OD::Result_type dummy = od.rsp();
+	OD::Result_type dummy = od.OD_rsp();
 	(void)dummy;
 }
 
 THEN("^\\.cnf has Result: yes$") {
-	OD::Result_type dummy = od.cnf();
+	OD::Result_type dummy = od.OD_cnf();
 	(void)dummy;
 }
 
@@ -143,6 +171,6 @@ GIVEN("^the Argument is passable range$") {
 	Argument.Length = OD::Length_type::_32;
 	Argument.Data = new OctetStringT(23);
 
-	od.req(Argument);
-	od.ind(Argument);
+	od.OD_req(Argument);
+	od.OD_ind(Argument);
 }

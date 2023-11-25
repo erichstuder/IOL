@@ -7,7 +7,7 @@ VOLUME_DIR=/usr/software
 cmake_command='
 	set -e
 	cmake '${VOLUME_DIR}'
-	cmake --build .'
+	cmake --build . --parallel'
 
 cuke_execute='
 	feature_path=$(find -P ../.. -name ${feature_file})

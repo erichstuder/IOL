@@ -33,7 +33,10 @@ class OD_mock:
 };
 
 
-OD_mock od;
+static OD_mock od;
+static OD::Result_type* result;
+static const uint8_t Data_Length = 6;
+static const uint8_t Data_Sequence[] = {1,2,3,4,5,6};
 
 THEN("^\\.req has Argument: yes") {
 	OD::Argument_type Argument;
@@ -173,4 +176,42 @@ GIVEN("^the Argument is passable range$") {
 
 	od.OD_req(Argument);
 	od.OD_ind(Argument);
+}
+
+GIVEN("^the service executed successfully$") {
+	result = new OD::Result_type(Data_Length);
+	result->ErrorInfo = OD::Result_type::ErrorInfo_type::SUCCESS;
+	result->Data->sequence = (uint8_t*)Data_Sequence;
+}
+
+THEN("^Data contains the read data values$") {
+	for(auto i = 0; i < Data_Length; i++) {
+		if(result->Data->sequence[i] != Data_Sequence[i]) {
+			FAIL() << "data not equal";
+		}
+	}
+}
+
+THEN("^Length contains the length of the received data package$") {
+	EXPECT_EQ(result->Data->Length, Data_Length);
+}
+
+THEN("^Length is in range \\{0\\.\\.32\\}$") {
+	result = new OD::Result_type(0);
+	EXPECT_EQ(result->Data->Length, 0);
+
+	result = new OD::Result_type(32);
+	EXPECT_EQ(result->Data->Length, 32);
+}
+
+GIVEN("^the Service failed$") {
+	//nothing to test
+}
+
+THEN("^ErrorInfo is in the range \\{NO_COMM, STATE_CONFLICT\\}$") {
+	OD::Result_type::ErrorInfo_type error;
+	(void)error;
+	error = OD::Result_type::ErrorInfo_type::NO_COMM;
+	error = OD::Result_type::ErrorInfo_type::STATE_CONFLICT;
+	EXPECT_EQ((int)OD::Result_type::ErrorInfo_type::_cnt, 3);
 }

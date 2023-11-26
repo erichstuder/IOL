@@ -48,5 +48,15 @@ foreach(step_file ${step_files})
 		"/usr/src/cucumber-cpp/build/gmock/src/gmock-build/lib/libgtest.a"
 		boost_iostreams boost_system boost_filesystem boost_regex boost_program_options
 	)
-	target_compile_options(${target_name} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-deprecated -Wno-deprecated-declarations)
+	target_compile_options(
+		${target_name}
+		PRIVATE
+		-Wall
+		-Wextra
+		-Wpedantic
+		-Werror
+		-Wno-deprecated
+		-Wno-deprecated-declarations
+		-fmax-errors=3
+	)
 endforeach()

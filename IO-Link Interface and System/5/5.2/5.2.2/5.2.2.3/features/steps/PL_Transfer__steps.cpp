@@ -1,20 +1,28 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "PL_Transfer.h"
+#include "PL_Transfer_req.h"
+#include "PL_Transfer_ind.h"
+#include "PL_Transfer_rsp.h"
 
 using std::string;
 
-class PL_Transfer_mock: public PL_Transfer {
+class PL_Transfer_mock:
+	public PL_Transfer_req__Interface,
+	public PL_Transfer_ind__Interface,
+	public PL_Transfer_rsp__Interface
+{
 	public:
-		void PL_Transfer_req(uint8_t Data) {
+		void PL_Transfer_req(uint8_t Data) override {
 			(void)Data;
 		}
 
-		Status PL_Transfer_ind(uint8_t Data) {
+		PL_Transfer::Status PL_Transfer_ind(uint8_t Data) override {
 			(void)Data;
-			return Status::SUCCESS;
+			return PL_Transfer::Status::SUCCESS;
 		}
+
+		void PL_Transfer_rsp() {}
 };
 
 static PL_Transfer_mock service_mock;

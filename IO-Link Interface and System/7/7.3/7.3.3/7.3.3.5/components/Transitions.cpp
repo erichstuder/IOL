@@ -1,9 +1,6 @@
 #include "Transitions.h"
 
 namespace State_machine_of_the_Device_message_handler {
-	Transitions::Transitions(Administration* administration):
-		administration(administration) {}
-
 	void Transitions::T1() {}
 
 	void Transitions::T2() {
@@ -19,8 +16,18 @@ namespace State_machine_of_the_Device_message_handler {
 		administration->MaxUARTframeTime_timer->stop();
 	}
 
-	void Transitions::T5() {}
-	void Transitions::T6() {}
+	void Transitions::T5() {
+		OD::Argument_type OD_Argument;
+		OD_handler->OD_ind(OD_Argument);
+
+		PD::Argument_type PD_Argument;
+		PD_handler->PD_ind(PD_Argument);
+	}
+
+	void Transitions::T6() {
+		PL_Transfer->PL_Transfer_rsp();
+	}
+
 	void Transitions::T7() {}
 	void Transitions::T8() {}
 	void Transitions::T9() {}

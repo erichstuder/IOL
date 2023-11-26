@@ -2,6 +2,9 @@
 #include <cucumber-cpp/autodetect.hpp>
 
 #include "State_machine_of_the_Device_message_handler.h"
+#include "mocks/OD_handler_mock.h"
+#include "mocks/PD_handler_mock.h"
+#include "mocks/PL_Transfer_mock.h"
 
 using std::string;
 
@@ -9,17 +12,34 @@ using namespace State_machine_of_the_Device_message_handler;
 
 class Transitions_mock: public ITransitions {
 	public:
-		void T1() { transition_number = 1; }
-		void T2() { transition_number = 2; }
-		void T3() { transition_number = 3; }
-		void T4() { transition_number = 4; }
-		void T5() { transition_number = 5; }
-		void T6() { transition_number = 6; }
-		void T7() { transition_number = 7; }
-		void T8() { transition_number = 8; }
-		void T9() { transition_number = 9; }
-		void T10() { transition_number = 10; }
-		void T11() { transition_number = 11; }
+		Transitions_mock(
+			Administration* administration,
+			OD_handler_for_Device* OD_handler,
+			PD_handler_for_Device* PD_handler,
+			PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer
+		):
+			ITransitions(administration, OD_handler, PD_handler, PL_Transfer)
+		{}
+
+		void T1() override { transition_number = 1; }
+		void T2() override { transition_number = 2; }
+		void T3() override { transition_number = 3; }
+		void T4() override { transition_number = 4; }
+		void T5() override { transition_number = 5; }
+		void T6() override { transition_number = 6; }
+		void T7() override { transition_number = 7; }
+		void T8() override { transition_number = 8; }
+		void T9() override { transition_number = 9; }
+		void T10() override { transition_number = 10; }
+		void T11() override { transition_number = 11; }
+
+		/*OD::Result_type OD_rsp() override {
+			return OD::Result_type(1);
+		}
+
+		PD::Result_type PD_rsp() override {
+			return PD::Result_type(1);
+		}*/
 
 		unsigned int transition_number;
 
@@ -41,7 +61,12 @@ class Timer_mock: public ITimer {
 
 static Timer_mock* timer_mock = new Timer_mock();
 static Administration* administration = new Administration(timer_mock, timer_mock);
-static Transitions_mock* transitions_mock = new Transitions_mock();
+static Transitions_mock* transitions_mock = new Transitions_mock(
+	administration,
+	new OD_handler_mock(),
+	new PD_handler_mock(),
+	new PL_Transfer_mock()
+);
 
 static States states(administration, transitions_mock);
 static States::Guard guard;

@@ -115,4 +115,8 @@ namespace State_machine_of_the_Device_message_handler {
 		(void)Data; //TODO: was soll mit den Daten geschehen?
 		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?
 	}
+
+	void States::State::PL_Transfer_rsp() {
+		//PL->PL_Transfer_rsp();
+	}
 }

@@ -19,3 +19,7 @@ Feature: State machine of the Device message handler
 	Scenario: T5
 		Given T5
 		Then Invoke OD.ind and PD.ind service indications
+
+	Scenario: T6
+		Given T6
+		Then Compile and invoke PL_Transfer.rsp service response

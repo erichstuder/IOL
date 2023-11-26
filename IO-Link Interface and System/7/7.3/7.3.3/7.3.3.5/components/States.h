@@ -2,7 +2,9 @@
 
 #include "Administration.h"
 #include "ITransitions.h"
-#include "PL_Transfer.h"
+#include "PL_Transfer_req.h"
+#include "PL_Transfer_ind.h"
+#include "PL_Transfer_rsp.h"
 #include "Behavioral_description.h"
 
 namespace State_machine_of_the_Device_message_handler {
@@ -17,7 +19,12 @@ namespace State_machine_of_the_Device_message_handler {
 				Ready
 			};
 
-			class State: public PL_Transfer, public Behavioral_description {
+			class State:
+				public PL_Transfer_req__Interface,
+				public PL_Transfer_ind__Interface,
+				public PL_Transfer_rsp__Interface,
+				public Behavioral_description
+			{
 				public:
 					State(States* states, ITransitions* transitions, Administration* administration):
 						states(states),
@@ -32,7 +39,9 @@ namespace State_machine_of_the_Device_message_handler {
 					void MH_Conf_INACTIVE();
 
 					void PL_Transfer_req(uint8_t Data) override;
-					Status PL_Transfer_ind(uint8_t Data) override;
+					PL_Transfer::Status PL_Transfer_ind(uint8_t Data) override;
+					void PL_Transfer_rsp() override;
+
 				protected:
 					States* states;
 					ITransitions* transitions;

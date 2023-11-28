@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "State_machine_of_the_Device_message_handler.h"
+#include "../../components/States.h"
+#include "../../components/State_Interface.h"
+
 #include "mocks/OD_handler_mock.h"
 #include "mocks/PD_handler_mock.h"
 #include "mocks/PL_Transfer_mock.h"
@@ -69,7 +71,7 @@ static Transitions_mock* transitions_mock = new Transitions_mock(
 );
 
 static States states(administration, transitions_mock);
-static States::Guard guard;
+static State_Interface::Guard guard;
 static unsigned int expected_transiton_number;
 static string event;
 
@@ -108,22 +110,22 @@ GIVEN("^Event is (.+)$") {
 GIVEN("^Guard is (.+)$") {
 	REGEX_PARAM(string, data);
 	if(data == "-") {
-		guard = States::Guard::NoGuard;
+		guard = State_Interface::Guard::NoGuard;
 	}
 	else if(data == "Completed") {
-		guard = States::Guard::Completed;
+		guard = State_Interface::Guard::Completed;
 	}
 	else if(data == "No error") {
-		guard = States::Guard::No_error;
+		guard = State_Interface::Guard::No_error;
 	}
 	else if(data == "ChecksumError") {
-		guard = States::Guard::ChecksumError;
+		guard = State_Interface::Guard::ChecksumError;
 	}
 	else if(data == "TypeError and not ChecksumError") {
-		guard = States::Guard::TypeError_and_not_ChecksumError;
+		guard = State_Interface::Guard::TypeError_and_not_ChecksumError;
 	}
 	else if(data == "Ready") {
-		guard = States::Guard::Ready;
+		guard = State_Interface::Guard::Ready;
 	}
 	else {
 		FAIL() << "unknown Guard";

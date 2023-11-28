@@ -1,42 +1,26 @@
 #pragma once
 
+#include "State_Interface.h"
 #include "Administration.h"
 #include "ITransitions.h"
-#include "PL_Transfer_req.h"
-#include "PL_Transfer_ind.h"
-#include "PL_Transfer_rsp.h"
-#include "Behavioral_description.h"
 
 namespace State_machine_of_the_Device_message_handler {
 	class States {
 		public:
-			enum class Guard {
-				NoGuard,
-				Completed,
-				No_error,
-				ChecksumError,
-				TypeError_and_not_ChecksumError,
-				Ready
-			};
-
-			class State:
-				public PL_Transfer_req__Interface,
-				public PL_Transfer_ind__Interface,
-				public PL_Transfer_rsp__Interface,
-				public Behavioral_description
+			class State_Base: public State_Interface
 			{
 				public:
-					State(States* states, ITransitions* transitions, Administration* administration):
+					State_Base(States* states, ITransitions* transitions, Administration* administration):
 						states(states),
 						transitions(transitions),
 						administration(administration){}
 
-					virtual void tick(Guard guard) { (void)guard; };
+					void tick(Guard guard) override;
 
-					void tm_event() override {};
+					void tm_event() override;
 
-					void MH_Conf_ACTIVE();
-					void MH_Conf_INACTIVE();
+					void MH_Conf_ACTIVE(); //TODO: ins Interface auslagern?
+					void MH_Conf_INACTIVE(); //TODO: ins Interface auslagern?
 
 					void PL_Transfer_req(uint8_t Data) override;
 					PL_Transfer::Status PL_Transfer_ind(uint8_t Data) override;
@@ -48,16 +32,16 @@ namespace State_machine_of_the_Device_message_handler {
 					Administration* administration;
 			};
 
-			State* const Inactive_0;
-			State* const Idle_1;
-			State* const GetMessage_2;
-			State* const CheckMessage_3;
-			State* const CreateMessage_4;
+			State_Base* const Inactive_0;
+			State_Base* const Idle_1;
+			State_Base* const GetMessage_2;
+			State_Base* const CheckMessage_3;
+			State_Base* const CreateMessage_4;
 			const float MaxCycleTime_ms = 42.8; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
-			const float MaxUARTframeTime = 88.9; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
+			const float MaxUARTframeTime_ms = 88.9; //TODO: don't understand yet how to set this time. see Specification and maybe also 10.8.3
 
 			States(Administration* administration, ITransitions* transitions);
 
-			State* state;
+			State_Base* state;
 	};
 }

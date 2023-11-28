@@ -25,8 +25,5 @@ namespace State_machine_of_the_Device_message_handler {
 			void T9() override;
 			void T10() override;
 			void T11() override;
-
-			//OD::Result_type OD_rsp() override;
-			//PD::Result_type PD_rsp() override;
 	};
 }

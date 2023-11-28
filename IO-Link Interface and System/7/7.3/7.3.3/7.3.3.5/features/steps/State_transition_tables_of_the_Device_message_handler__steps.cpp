@@ -2,13 +2,10 @@
 #include <cucumber-cpp/autodetect.hpp>
 
 #include "../../components/Transitions.h"
-#include "../../components/Administration.h"
 #include "mocks/Timer_mocks.h"
 #include "mocks/OD_handler_mock.h"
 #include "mocks/PD_handler_mock.h"
 #include "mocks/PL_Transfer_mock.h"
-
-using std::string;
 
 using namespace State_machine_of_the_Device_message_handler;
 

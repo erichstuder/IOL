@@ -2,7 +2,6 @@
 #include <cucumber-cpp/autodetect.hpp>
 
 #include "../../components/States.h"
-#include "../../components/State_Interface.h"
 
 #include "mocks/OD_handler_mock.h"
 #include "mocks/PD_handler_mock.h"
@@ -34,14 +33,6 @@ class Transitions_mock: public Transitions_Interface {
 		void T9() override { transition_number = 9; }
 		void T10() override { transition_number = 10; }
 		void T11() override { transition_number = 11; }
-
-		/*OD::Result_type OD_rsp() override {
-			return OD::Result_type(1);
-		}
-
-		PD::Result_type PD_rsp() override {
-			return PD::Result_type(1);
-		}*/
 
 		unsigned int transition_number;
 

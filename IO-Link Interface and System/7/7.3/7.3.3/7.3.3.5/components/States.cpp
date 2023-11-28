@@ -3,6 +3,44 @@
 #include <cstddef>
 
 namespace State_machine_of_the_Device_message_handler {
+	void States::State_Base::tick(Guard guard) { (void)guard; }
+
+	void States::State_Base::tm_event() {}
+
+	void States::State_Base::MH_Conf_ACTIVE() {
+		if(states->state == states->Inactive_0) {
+			transitions->T1();
+			states->state = states->Idle_1;
+		}
+	}
+
+	void States::State_Base::MH_Conf_INACTIVE() {
+		if(states->state == states->Idle_1) {
+			transitions->T11();
+			states->state = states->Inactive_0;
+		}
+	}
+
+	void States::State_Base::PL_Transfer_req(uint8_t Data) {
+		if(states->state == states->GetMessage_2) {
+			transitions->T3();
+			states->state = states->GetMessage_2;
+		}
+		(void)Data; //TODO: was soll mit den Daten geschehen?
+	}
+
+	PL_Transfer::Status States::State_Base::PL_Transfer_ind(uint8_t Data) {
+		if(states->state == states->Idle_1) {
+			transitions->T2();
+			states->state = states->GetMessage_2;
+		}
+		(void)Data; //TODO: was soll mit den Daten geschehen?
+		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?
+	}
+
+	void States::State_Base::PL_Transfer_rsp() {
+		//PL->PL_Transfer_rsp();
+	}
 
 	class _Inactive_0: public States::State_Base {
 		public:
@@ -107,45 +145,6 @@ namespace State_machine_of_the_Device_message_handler {
 		Idle_1(new _Idle_1(this, transitions, administration)),
 		GetMessage_2(new _GetMessage_2(this, transitions, administration)),
 		CheckMessage_3(new _CheckMessage_3(this, transitions, administration)),
-		CreateMessage_4(new _CreateMessage_4(this, transitions, administration)){}
-
-
-	void States::State_Base::tick(Guard guard) { (void)guard; }
-
-	void States::State_Base::tm_event() {}
-
-	void States::State_Base::MH_Conf_ACTIVE() {
-		if(states->state == states->Inactive_0) {
-			transitions->T1();
-			states->state = states->Idle_1;
-		}
-	}
-
-	void States::State_Base::MH_Conf_INACTIVE() {
-		if(states->state == states->Idle_1) {
-			transitions->T11();
-			states->state = states->Inactive_0;
-		}
-	}
-
-	void States::State_Base::PL_Transfer_req(uint8_t Data) {
-		if(states->state == states->GetMessage_2) {
-			transitions->T3();
-			states->state = states->GetMessage_2;
-		} 
-		(void)Data; //TODO: was soll mit den Daten geschehen?
-	}
-	
-	PL_Transfer::Status States::State_Base::PL_Transfer_ind(uint8_t Data) {
-		if(states->state == states->Idle_1) {
-			transitions->T2();
-			states->state = states->GetMessage_2;
-		}
-		(void)Data; //TODO: was soll mit den Daten geschehen?
-		return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?
-	}
-
-	void States::State_Base::PL_Transfer_rsp() {
-		//PL->PL_Transfer_rsp();
-	}
+		CreateMessage_4(new _CreateMessage_4(this, transitions, administration))
+	{}
 }

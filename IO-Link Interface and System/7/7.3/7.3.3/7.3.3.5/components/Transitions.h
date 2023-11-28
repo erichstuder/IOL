@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ITransitions.h"
+#include "Transitions_Interface.h"
 
 namespace State_machine_of_the_Device_message_handler {
-	class Transitions: public ITransitions{
+	class Transitions: public Transitions_Interface{
 		public:
 			Transitions(
 				Administration* administration,
@@ -11,7 +11,7 @@ namespace State_machine_of_the_Device_message_handler {
 				PD_handler_for_Device* PD_handler,
 				PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer
 			):
-				ITransitions(administration, OD_handler, PD_handler, PL_Transfer)
+				Transitions_Interface(administration, OD_handler, PD_handler, PL_Transfer)
 			{}
 
 			void T1() override;

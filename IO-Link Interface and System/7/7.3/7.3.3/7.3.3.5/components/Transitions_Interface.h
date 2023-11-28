@@ -6,10 +6,10 @@
 #include "PL_Transfer_for_Device.h"
 
 namespace State_machine_of_the_Device_message_handler {
-	class ITransitions
+	class Transitions_Interface
 	{
 		public:
-			ITransitions(
+			Transitions_Interface(
 				Administration* administration,
 				OD_handler_for_Device* OD_handler,
 				PD_handler_for_Device* PD_handler,

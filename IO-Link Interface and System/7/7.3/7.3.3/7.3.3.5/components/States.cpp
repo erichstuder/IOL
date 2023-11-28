@@ -1,19 +1,29 @@
 #include "States.h"
-#include "ITransitions.h"
+#include "Transitions_Interface.h"
 #include <cstddef>
 
 namespace State_machine_of_the_Device_message_handler {
 
 	class _Inactive_0: public States::State_Base {
 		public:
-			_Inactive_0(States* states, ITransitions* transitions, Administration* administration):
-				State_Base(states, transitions, administration) {}
+			_Inactive_0(
+				States* states,
+				Transitions_Interface* transitions,
+				Administration* administration
+			):
+				State_Base(states, transitions, administration)
+			{}
 	};
 
 	class _Idle_1: public States::State_Base {
 		public:
-			_Idle_1(States* states, ITransitions* transitions, Administration* administration):
-				State_Base(states, transitions, administration) {}
+			_Idle_1(
+				States* states,
+				Transitions_Interface* transitions,
+				Administration* administration
+			):
+				State_Base(states, transitions, administration)
+			{}
 
 			void tm_event() override {
 				transitions->T10();
@@ -23,8 +33,13 @@ namespace State_machine_of_the_Device_message_handler {
 
 	class _GetMessage_2: public States::State_Base {
 		public:
-			_GetMessage_2(States* states, ITransitions* transitions, Administration* administration):
-				State_Base(states, transitions, administration) {}
+			_GetMessage_2(
+				States* states,
+				Transitions_Interface* transitions,
+				Administration* administration
+			):
+				State_Base(states, transitions, administration)
+			{}
 
 			void tick(Guard guard) override {
 				if(guard == Guard::Completed) {
@@ -41,8 +56,13 @@ namespace State_machine_of_the_Device_message_handler {
 
 	class _CheckMessage_3: public States::State_Base {
 		public:
-			_CheckMessage_3(States* states, ITransitions* transitions, Administration* administration):
-				State_Base(states, transitions, administration) {}
+			_CheckMessage_3(
+				States* states,
+				Transitions_Interface* transitions,
+				Administration* administration
+			):
+				State_Base(states, transitions, administration)
+			{}
 
 			void tick(Guard guard) override {
 				switch(guard) {
@@ -66,8 +86,13 @@ namespace State_machine_of_the_Device_message_handler {
 
 	class _CreateMessage_4: public States::State_Base {
 		public:
-			_CreateMessage_4(States* states, ITransitions* transitions, Administration* administration):
-				State_Base(states, transitions, administration){}
+			_CreateMessage_4(
+				States* states,
+				Transitions_Interface* transitions,
+				Administration* administration
+			):
+				State_Base(states, transitions, administration)
+			{}
 
 			void tick(Guard guard) override {
 				if(guard == Guard::Ready) {
@@ -77,7 +102,7 @@ namespace State_machine_of_the_Device_message_handler {
 			}
 	};
 
-	States::States(Administration* administration, ITransitions* transitions):
+	States::States(Administration* administration, Transitions_Interface* transitions):
 		Inactive_0(new _Inactive_0(this, transitions, administration)),
 		Idle_1(new _Idle_1(this, transitions, administration)),
 		GetMessage_2(new _GetMessage_2(this, transitions, administration)),

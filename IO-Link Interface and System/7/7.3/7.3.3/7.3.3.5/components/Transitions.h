@@ -5,14 +5,7 @@
 namespace State_machine_of_the_Device_message_handler {
 	class Transitions: public Transitions_Interface{
 		public:
-			Transitions(
-				Administration* administration,
-				OD_handler_for_Device* OD_handler,
-				PD_handler_for_Device* PD_handler,
-				PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer
-			):
-				Transitions_Interface(administration, OD_handler, PD_handler, PL_Transfer)
-			{}
+			using Transitions_Interface::Transitions_Interface;
 
 			void T1() override;
 			void T2() override;

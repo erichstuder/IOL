@@ -26,8 +26,8 @@ namespace State_machine_of_the_Device_message_handler {
 
 					void tm_event() override;
 
-					void MH_Conf_ACTIVE(); //TODO: ins Interface auslagern?
-					void MH_Conf_INACTIVE(); //TODO: ins Interface auslagern?
+					void MH_Conf_ACTIVE();
+					void MH_Conf_INACTIVE();
 
 					void PL_Transfer_req(uint8_t Data) override;
 					PL_Transfer::Status PL_Transfer_ind(uint8_t Data) override;

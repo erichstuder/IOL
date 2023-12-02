@@ -40,6 +40,7 @@ Feature: State machine of the Device message handler
 		Given T10
 		# Then Indicate error to actuator technology that shall observe this information
 		# And take corresponding actions (see 10.2 and 10.8.3).
+		# TBD: could be application specific
 
 	Scenario: T11
 		Given T11

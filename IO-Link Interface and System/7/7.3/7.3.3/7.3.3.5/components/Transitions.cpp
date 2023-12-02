@@ -9,11 +9,11 @@ namespace State_machine_of_the_Device_message_handler {
 	}
 
 	void Transitions::T3() {
-		administration->MaxUARTframeTime_timer->start();
+		administration->MaxUARTframeTime_timer->restart();
 	}
 
 	void Transitions::T4() {
-		administration->MaxUARTframeTime_timer->stop();
+		administration->MaxUARTframeTime_timer->reset();
 	}
 
 	void Transitions::T5() {
@@ -28,9 +28,25 @@ namespace State_machine_of_the_Device_message_handler {
 		PL_Transfer->PL_Transfer_rsp();
 	}
 
-	void Transitions::T7() {}
-	void Transitions::T8() {}
-	void Transitions::T9() {}
-	void Transitions::T10() {}
-	void Transitions::T11() {}
+	void Transitions::T7() {
+		//no action
+	}
+
+	void Transitions::T8() {
+		MHInfo::Argument_type MHInfo_Argument;
+		DL_mode_handler->MHInfo_ind(MHInfo_Argument);
+	}
+	
+	void Transitions::T9() {
+		administration->MaxUARTframeTime_timer->reset();
+		administration->MaxCycleTime_timer->reset();
+	}
+	
+	void Transitions::T10() {
+		
+	}
+	
+	void Transitions::T11() {
+
+	}
 }

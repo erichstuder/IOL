@@ -6,6 +6,7 @@
 #include "mocks/OD_handler_mock.h"
 #include "mocks/PD_handler_mock.h"
 #include "mocks/PL_Transfer_mock.h"
+#include "mocks/DL_mode_handler_mock.h"
 
 using std::string;
 
@@ -13,14 +14,7 @@ using namespace State_machine_of_the_Device_message_handler;
 
 class Transitions_mock: public Transitions_Interface {
 	public:
-		Transitions_mock(
-			Administration* administration,
-			OD_handler_for_Device* OD_handler,
-			PD_handler_for_Device* PD_handler,
-			PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer
-		):
-			Transitions_Interface(administration, OD_handler, PD_handler, PL_Transfer)
-		{}
+		using Transitions_Interface::Transitions_Interface;
 
 		void T1() override { transition_number = 1; }
 		void T2() override { transition_number = 2; }
@@ -47,8 +41,12 @@ class Timer_mock: public ITimer {
 			FAIL() << "Timer_mock start";
 		}
 
-		void stop() override {
-			FAIL() << "Timer_mock stop";
+		void restart() override {
+			FAIL() << "Timer_mock restart";
+		}
+
+		void reset() override {
+			FAIL() << "Timer_mock reset";
 		}
 };
 
@@ -58,7 +56,8 @@ static Transitions_mock* transitions_mock = new Transitions_mock(
 	administration,
 	new OD_handler_mock(),
 	new PD_handler_mock(),
-	new PL_Transfer_mock()
+	new PL_Transfer_mock(),
+	new DL_mode_handler_mock()
 );
 
 static States states(administration, transitions_mock);

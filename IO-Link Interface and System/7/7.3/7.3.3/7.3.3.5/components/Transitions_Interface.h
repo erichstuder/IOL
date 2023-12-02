@@ -4,6 +4,7 @@
 #include "OD_handler_for_Device.h"
 #include "PD_handler_for_Device.h"
 #include "PL_Transfer_for_Device.h"
+#include "MHInfo_ind.h"
 
 namespace State_machine_of_the_Device_message_handler {
 	class Transitions_Interface
@@ -13,12 +14,14 @@ namespace State_machine_of_the_Device_message_handler {
 				Administration* administration,
 				OD_handler_for_Device* OD_handler,
 				PD_handler_for_Device* PD_handler,
-				PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer
+				PL_Transfer_for_Device__Message_handler_Interface* PL_Transfer,
+				MHInfo_ind__Interface* DL_mode_handler
 			):
 				administration(administration),
 				OD_handler(OD_handler),
 				PD_handler(PD_handler),
-				PL_Transfer(PL_Transfer)
+				PL_Transfer(PL_Transfer),
+				DL_mode_handler(DL_mode_handler)
 			{}
 
 			virtual void T1() = 0;
@@ -37,5 +40,6 @@ namespace State_machine_of_the_Device_message_handler {
 			OD_handler_for_Device* const OD_handler;
 			PD_handler_for_Device* const PD_handler;
 			PL_Transfer_for_Device__Message_handler_Interface* const PL_Transfer;
+			MHInfo_ind__Interface* const DL_mode_handler;
 	};
 }

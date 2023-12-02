@@ -14,7 +14,7 @@ class PL_Transfer_mock:	public PL_Transfer_for_Device__Message_handler_Interface
 			rsp_called = true;
 		}
 
-		void reset() {
+		void reset_mock() {
 			req_called = false;
 			rsp_called = false;
 		}

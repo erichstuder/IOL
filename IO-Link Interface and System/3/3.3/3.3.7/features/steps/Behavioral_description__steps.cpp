@@ -15,7 +15,9 @@ class Timer_mock: public ITimer {
 	public:
 		void start() {}
 
-		void stop() {}
+		void restart() {}
+
+		void reset() {}
 };
 
 Behavioral_description_mock behavioral_mock;
@@ -23,6 +25,7 @@ Timer_mock timer_mock;
 
 THEN("^Timing constraints are labelled \"tm\\(time in ms\\)\"$") {
 	timer_mock.start();
-	timer_mock.stop();
+	timer_mock.restart();
+	timer_mock.reset();
 	behavioral_mock.tm_event();
 }

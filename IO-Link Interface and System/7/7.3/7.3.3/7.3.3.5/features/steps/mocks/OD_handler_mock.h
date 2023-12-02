@@ -11,7 +11,7 @@ class OD_handler_mock:
 			ind_called = true;
 		}
 
-		void reset() {
+		void reset_mock() {
 			ind_called = false;
 		}
 

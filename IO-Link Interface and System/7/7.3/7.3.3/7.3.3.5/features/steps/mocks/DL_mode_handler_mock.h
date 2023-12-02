@@ -1,12 +1,12 @@
 #pragma once
 
-#include "PD_handler_for_Device.h"
+#include "MHInfo_ind.h"
 
-class PD_handler_mock:
-	public PD_handler_for_Device
+class DL_mode_handler_mock:
+	public MHInfo_ind__Interface
 {
 	public:
-		void PD_ind(PD::Argument_type Argument) override {
+		void MHInfo_ind(MHInfo::Argument_type Argument) override {
 			(void)Argument;
 			ind_called = true;
 		}

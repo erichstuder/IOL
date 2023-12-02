@@ -17,12 +17,18 @@ Feature: State machine of the Master message handler
 		| AwaitReply_1    | tm(TM-sequence)     | -                | T4         | Inactive_0      |
 
 		| Startup_2       | DL_Read             | -                | T5         | Response_3      |
-		# | Startup_2       | DL_Write            | -                | T6         | Response_3      |
-		# | Startup_2       | MH_Conf_PREOPERATE  | -                | T12        | Preoperate_6    |
-		# | Startup_2       | MH_Conf_OPERATE     | -                | T39        | Operate_12      |
+		| Startup_2       | DL_Write            | -                | T6         | Response_3      |
+		| Startup_2       | MH_Conf_PREOPERATE  | -                | T12        | Preoperate_6    |
+		| Startup_2       | MH_Conf_OPERATE     | -                | T39        | Operate_12      |
 
-		# | Response_3      | -                   | No error         | T10        | Startup_2       |
-		# | Response_3      | -                   | Retry = MaxRetry | T11        | Inactive_0      |
+		# Response_3 is a pseudo state => no tests
+
+		| AwaitReply_4    | tm(TM-sequence)     | -                | T7         | ErrorHandling_5 |
+		| AwaitReply_4    | -                   | Response not OK  | T8         | ErrorHandling_5 |
+		| AwaitReply_4    | -                   | No error         | T10        | Startup_2       |
+
+		| ErrorHandling_5 | tm(Tinitcyc)        | Retry < MaxRetry | T9         | AwaitReply_4    |
+		| ErrorHandling_5 | -                   | Retry = MaxRetry | T11        | Inactive_0      |
 
 		# | Preoperate_6    | DL_ReadParam        | -                | T13        | GetOD_7         |
 		# | Preoperate_6    | DL_WriteParam       | -                | T14        | GetOD_7         |

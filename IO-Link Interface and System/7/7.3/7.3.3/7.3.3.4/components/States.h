@@ -26,12 +26,12 @@ namespace State_machine_of_the_Master_message_handler {
 
 					void tm_event() override {}
 
-					virtual void MH_Conf_COMx() {}
-					virtual void DL_Read() {}
+					void MH_Conf_COMx() override {}
+					void MH_Conf_PREOPERATE() override {}
+					void MH_Conf_OPERATE() override {}
 
-			// 		void PL_Transfer_req(uint8_t Data) override;
-			// 		PL_Transfer::Status PL_Transfer_ind(uint8_t Data) override;
-			// 		void PL_Transfer_rsp() override;
+					void DL_Read_req(DL_Read::Argument_type* Argument) override { (void)Argument; }
+					void DL_Write_req(DL_Write::Argument_type* Argument) override { (void)Argument; }
 
 				protected:
 					States* states;
@@ -43,6 +43,8 @@ namespace State_machine_of_the_Master_message_handler {
 			State_Base* const AwaitReply_1;
 			State_Base* const Startup_2;
 			State_Base* const Response_3;
+			State_Base* const AwaitReply_4;
+			State_Base* const ErrorHandling_5;
 			State_Base* const Preoperate_6;
 			State_Base* const GetOD_7;
 			State_Base* const Response_8;

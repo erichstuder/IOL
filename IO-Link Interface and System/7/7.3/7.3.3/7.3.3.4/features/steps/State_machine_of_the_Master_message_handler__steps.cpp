@@ -84,6 +84,12 @@ GIVEN("^State is (.+)$") {
 	else if(data == "Response_3") {
 		states.state = states.Response_3;
 	}
+	else if(data == "AwaitReply_4") {
+		states.state = states.AwaitReply_4;
+	}
+	else if(data == "ErrorHandling_5") {
+		states.state = states.ErrorHandling_5;
+	}
 	else if(data == "Preoperate_6") {
 		states.state = states.Preoperate_6;
 	}
@@ -129,6 +135,15 @@ GIVEN("^Guard is (.+)$") {
 	else if(data == "Response not OK") {
 		guard = State_Interface::Guard::Response_not_OK;
 	}
+	else if(data == "No error") {
+		guard = State_Interface::Guard::No_error;
+	}
+	else if(data == "Retry < MaxRetry") {
+		guard = State_Interface::Guard::Retry_less_than_MaxRetry;
+	}
+	else if(data == "Retry = MaxRetry") {
+		guard = State_Interface::Guard::Retry_equals_MaxRetry;
+	}
 	else {
 		FAIL() << "unknown Guard";
 	}
@@ -152,6 +167,18 @@ static void assert_state_and_transition(const string expected_state) {
 	else if(expected_state == "Response_3") {
 		EXPECT_EQ(states.state, states.Response_3);
 	}
+	else if(expected_state == "AwaitReply_4") {
+		EXPECT_EQ(states.state, states.AwaitReply_4);
+	}
+	else if(expected_state == "ErrorHandling_5") {
+		EXPECT_EQ(states.state, states.ErrorHandling_5);
+	}
+	else if(expected_state == "Preoperate_6") {
+		EXPECT_EQ(states.state, states.Preoperate_6);
+	}
+	else if(expected_state == "Operate_12") {
+		EXPECT_EQ(states.state, states.Operate_12);
+	}
 	else {
 		FAIL() << "unknown Result State";
 	}
@@ -168,46 +195,28 @@ THEN("^Result State is (.+)$") {
 	else if(event == "MH_Conf_COMx") {
 		states.state->MH_Conf_COMx();
 	}
+	else if(event == "MH_Conf_PREOPERATE") {
+		states.state->MH_Conf_PREOPERATE();
+	}
+	else if(event == "MH_Conf_OPERATE") {
+		states.state->MH_Conf_OPERATE();
+	}
 	else if(event == "tm(TM-sequence)") {
 		states.state->tm_event();
 	}
+	else if(event == "tm(Tinitcyc)") {
+		states.state->tm_event();
+	}
 	else if(event == "DL_Read") {
-		states.state->DL_Read();
+		DL_Read::Argument_type Argument;
+		states.state->DL_Read_req(&Argument);
+	}
+	else if(event == "DL_Write") {
+		DL_Write::Argument_type Argument;
+		states.state->DL_Write_req(&Argument);
 	}
 	else {
 		FAIL() << "unknown event";
 	}
 	assert_state_and_transition(expected_state);
 }
-
-/*
-#include "mocks/OD_handler_mock.h"
-#include "mocks/PD_handler_mock.h"
-#include "mocks/PL_Transfer_mock.h"
-#include "mocks/DL_mode_handler_mock.h"
-
-class Timer_mock: public ITimer {
-	public:
-		void start() override {
-			FAIL() << "Timer_mock start";
-		}
-
-		void restart() override {
-			FAIL() << "Timer_mock restart";
-		}
-
-		void reset() override {
-			FAIL() << "Timer_mock reset";
-		}
-};
-
-static Timer_mock* timer_mock = new Timer_mock();
-static Administration* administration = new Administration(timer_mock, timer_mock);
-static Transitions_mock* transitions_mock = new Transitions_mock(
-	administration,
-	new OD_handler_mock(),
-	new PD_handler_mock(),
-	new PL_Transfer_mock(),
-	new DL_mode_handler_mock()
-);
-*/

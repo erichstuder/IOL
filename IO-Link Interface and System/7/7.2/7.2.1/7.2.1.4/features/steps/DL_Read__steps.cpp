@@ -41,11 +41,6 @@ static DL_Read_mock dl_read_mock;
 static uint8_t Address_min;
 static uint8_t Address_max;
 
-// static uint8_t Subindex_min;
-// static uint8_t Subindex_max;
-
-// DL_ISDUTransport dL_ISDUTransport;
-
 THEN("^\\.req has Argument: yes") {
 	DL_Read::Argument_type Argument;
 	dl_read_mock.DL_Read_req(&Argument);

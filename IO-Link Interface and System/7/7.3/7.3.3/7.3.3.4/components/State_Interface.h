@@ -2,12 +2,16 @@
 
 #include "DL_Read_req.h"
 #include "DL_Write_req.h"
+#include "DL_ReadParam_req.h"
+#include "DL_WriteParam_req.h"
 #include "Behavioral_description.h"
 
 namespace State_machine_of_the_Master_message_handler {
 	class State_Interface:
 		public DL_Read_req__Interface,
 		public DL_Write_req__Interface,
+		public DL_ReadParam_req__Interface,
+		public DL_WriteParam_req__Interface,
 		public Behavioral_description
 	{
 		public:
@@ -30,5 +34,7 @@ namespace State_machine_of_the_Master_message_handler {
 
 			void DL_Read_req(DL_Read::Argument_type* Argument) override = 0;
 			void DL_Write_req(DL_Write::Argument_type* Argument) override = 0;
+			void DL_ReadParam_req(DL_ReadParam::Argument_type* Argument) override = 0;
+			void DL_WriteParam_req(DL_WriteParam::Argument_type* Argument) override = 0;
 	};
 }

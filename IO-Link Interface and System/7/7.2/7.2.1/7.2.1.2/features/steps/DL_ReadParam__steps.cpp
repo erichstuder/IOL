@@ -15,16 +15,16 @@ class DL_ReadParam_mock:
 	public DL_ReadParam_rsp__Interface
 {
 	public:
-		void DL_ReadParam_req(Argument_type* Address) override {
-			(void)Address;
+		void DL_ReadParam_req(Argument_type* Argument) override {
+			(void)Argument;
 		}
 
 		Result_type DL_ReadParam_cnf() override {
 			return Result_type();
 		}
 
-		void DL_ReadParam_ind(Argument_type* Address) override {
-			(void)Address;
+		void DL_ReadParam_ind(Argument_type* Argument) override {
+			(void)Argument;
 		}
 
 		Result_type DL_ReadParam_rsp() override {

@@ -176,6 +176,9 @@ static void assert_state_and_transition(const string expected_state) {
 	else if(expected_state == "Preoperate_6") {
 		EXPECT_EQ(states.state, states.Preoperate_6);
 	}
+	else if(expected_state == "GetOD_7") {
+		EXPECT_EQ(states.state, states.GetOD_7);
+	}
 	else if(expected_state == "Operate_12") {
 		EXPECT_EQ(states.state, states.Operate_12);
 	}
@@ -214,6 +217,14 @@ THEN("^Result State is (.+)$") {
 	else if(event == "DL_Write") {
 		DL_Write::Argument_type Argument;
 		states.state->DL_Write_req(&Argument);
+	}
+	else if(event == "DL_ReadParam") {
+		DL_ReadParam::Argument_type Argument;
+		states.state->DL_ReadParam_req(&Argument);
+	}
+	else if(event == "DL_WriteParam") {
+		DL_WriteParam::Argument_type Argument;
+		states.state->DL_WriteParam_req(&Argument);
 	}
 	else {
 		FAIL() << "unknown event";

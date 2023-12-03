@@ -134,6 +134,18 @@ namespace State_machine_of_the_Master_message_handler {
 	class _Preoperate_6: public States::State_Base {
 		public:
 			using State_Base::State_Base;
+
+			void DL_ReadParam_req(DL_ReadParam::Argument_type* Argument) override {
+				(void)Argument;
+				transitions->T13();
+				states->state = states->GetOD_7;
+			}
+
+			void DL_WriteParam_req(DL_WriteParam::Argument_type* Argument) override {
+				(void)Argument;
+				transitions->T14();
+				states->state = states->GetOD_7;
+			}
 	};
 
 	class _GetOD_7: public States::State_Base {

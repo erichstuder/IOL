@@ -30,8 +30,8 @@ Feature: State machine of the Master message handler
 		| ErrorHandling_5 | tm(Tinitcyc)        | Retry < MaxRetry | T9         | AwaitReply_4    |
 		| ErrorHandling_5 | -                   | Retry = MaxRetry | T11        | Inactive_0      |
 
-		# | Preoperate_6    | DL_ReadParam        | -                | T13        | GetOD_7         |
-		# | Preoperate_6    | DL_WriteParam       | -                | T14        | GetOD_7         |
+		| Preoperate_6    | DL_ReadParam        | -                | T13        | GetOD_7         |
+		| Preoperate_6    | DL_WriteParam       | -                | T14        | GetOD_7         |
 		# | Preoperate_6    | DL_ISDUTransport    | -                | T15        | GetOD_7         |
 		# | Preoperate_6    | EventFlag           | -                | T16        | GetOD_7         |
 		# | Preoperate_6    | DL_Write_DEVICEMODE | -                | T17        | GetOD_7         |

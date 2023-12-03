@@ -32,6 +32,8 @@ namespace State_machine_of_the_Master_message_handler {
 
 					void DL_Read_req(DL_Read::Argument_type* Argument) override { (void)Argument; }
 					void DL_Write_req(DL_Write::Argument_type* Argument) override { (void)Argument; }
+					void DL_ReadParam_req(DL_ReadParam::Argument_type* Argument) override { (void)Argument; }
+					void DL_WriteParam_req(DL_WriteParam::Argument_type* Argument) override { (void)Argument; };
 
 				protected:
 					States* states;

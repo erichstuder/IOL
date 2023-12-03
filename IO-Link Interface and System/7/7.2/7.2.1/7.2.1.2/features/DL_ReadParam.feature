@@ -5,11 +5,11 @@ Feature: DL_ReadParam
 		* <primitive> has Result: <Result>
 
 	Examples:
-		| primitive | Argument | Result           |
-		| .req      | Address  | -                |
-		| .cnf      | -        | Value, ErrorInfo |
-		| .ind      | Address  | -                |
-		| .rsp      | -        | Value            |
+		| primitive | Argument | Result |
+		| .req      | yes      | no     |
+		| .cnf      | no       | yes    |
+		| .ind      | yes      | no     |
+		| .rsp      | no       | yes    |
 
 	Scenario: Argument
 		Given Address is in the range of 0 to 31

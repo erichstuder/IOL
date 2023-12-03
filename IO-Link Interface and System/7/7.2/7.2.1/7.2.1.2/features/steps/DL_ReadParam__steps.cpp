@@ -1,63 +1,75 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include "DL_ReadParam.h"
+#include "DL_ReadParam_req.h"
+#include "DL_ReadParam_cnf.h"
+#include "DL_ReadParam_ind.h"
+#include "DL_ReadParam_rsp.h"
 
-class DL_ReadParam_mock: public DL_ReadParam {
+using namespace DL_ReadParam;
+
+class DL_ReadParam_mock:
+	public DL_ReadParam_req__Interface,
+	public DL_ReadParam_cnf__Interface,
+	public DL_ReadParam_ind__Interface,
+	public DL_ReadParam_rsp__Interface
+{
 	public:
-		void DL_ReadParam_req(uint8_t Address) {
+		void DL_ReadParam_req(Argument_type* Address) override {
 			(void)Address;
 		}
 
-		Result_type DL_ReadParam_cnf() {
+		Result_type DL_ReadParam_cnf() override {
 			return Result_type();
 		}
 
-		void DL_ReadParam_ind(uint8_t Address) {
+		void DL_ReadParam_ind(Argument_type* Address) override {
 			(void)Address;
 		}
 
-		Value_type DL_ReadParam_rsp() {
-			return 14;
+		Result_type DL_ReadParam_rsp() override {
+			return Result_type();
 		}
 };
 
-DL_ReadParam_mock service_mock;
+DL_ReadParam_mock dl_readParam_mock;
 uint8_t Address_min;
 uint8_t Address_max;
 
-THEN("^\\.req has Argument: Address$") {
-	service_mock.DL_ReadParam_req(42);
+THEN("^\\.req has Argument: yes$") {
+	Argument_type Argument;
+	dl_readParam_mock.DL_ReadParam_req(&Argument);
 }
 
-THEN("^\\.req has Result: -$") {
+THEN("^\\.cnf has Argument: no$") {
+	dl_readParam_mock.DL_ReadParam_cnf();
+}
+
+THEN("^\\.ind has Argument: yes$") {
+	Argument_type Argument;
+	dl_readParam_mock.DL_ReadParam_ind(&Argument);
+}
+
+THEN("^\\.rsp has Argument: no$") {
+	dl_readParam_mock.DL_ReadParam_rsp();
+}
+
+THEN("^\\.req has Result: no$") {
 	//TODO: how to test?
 }
 
-THEN("^\\.cnf has Argument: -$") {
-	service_mock.DL_ReadParam_cnf();
-}
-
-THEN("^\\.cnf has Result: Value, ErrorInfo$") {
-	DL_ReadParam::Result_type result = service_mock.DL_ReadParam_cnf();
+THEN("^\\.cnf has Result: yes$") {
+	DL_ReadParam::Result_type result = dl_readParam_mock.DL_ReadParam_cnf();
 	(void)result;
 }
 
-THEN("^\\.ind has Argument: Address$") {
-	service_mock.DL_ReadParam_ind(61);
-}
-
-THEN("^\\.ind has Result: -$") {
+THEN("^\\.ind has Result: no$") {
 	//TODO: how to test?
 }
 
-THEN("^\\.rsp has Argument: -$") {
-	service_mock.DL_ReadParam_rsp();
-}
-
-THEN("^\\.rsp has Result: Value$") {
-	DL_ReadParam::Value_type value = service_mock.DL_ReadParam_rsp();
-	(void)value;
+THEN("^\\.rsp has Result: yes$") {
+	DL_ReadParam::Result_type result = dl_readParam_mock.DL_ReadParam_rsp();
+	(void)result;
 }
 
 GIVEN("^Address is in the range of 0 to 31$") {
@@ -66,16 +78,22 @@ GIVEN("^Address is in the range of 0 to 31$") {
 }
 
 THEN("^the Argument is in passable range$") {
-	service_mock.DL_ReadParam_req(Address_min);
-	service_mock.DL_ReadParam_ind(Address_min);
-	service_mock.DL_ReadParam_req(Address_max);
-	service_mock.DL_ReadParam_ind(Address_max);
+	Argument_type Argument;
+	
+	Argument.Address = Address_min;
+	dl_readParam_mock.DL_ReadParam_req(&Argument);
+	dl_readParam_mock.DL_ReadParam_ind(&Argument);
+
+	Argument.Address = Address_max;
+	dl_readParam_mock.DL_ReadParam_req(&Argument);
+	dl_readParam_mock.DL_ReadParam_ind(&Argument);
 }
 
 THEN("^ErrorInfo contains the error information NO_COMM and STATE_CONFLICT$") {
-	DL_ReadParam::ErrorInfo_type error_info;
+	ErrorInfo_type error_info;
 	(void)error_info;
-	error_info = DL_ReadParam::ErrorInfo_type::NO_COMM;
-	error_info = DL_ReadParam::ErrorInfo_type::STATE_CONFLICT;
-	EXPECT_EQ((int)DL_ReadParam::ErrorInfo_type::_cnt, 2);
+	error_info = ErrorInfo_type::SUCCESS;
+	error_info = ErrorInfo_type::NO_COMM;
+	error_info = ErrorInfo_type::STATE_CONFLICT;
+	EXPECT_EQ((int)ErrorInfo_type::_cnt, 3);
 }

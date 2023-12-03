@@ -19,12 +19,12 @@ Feature: DL_ISDUTransport
 		* Direction is READ or WRITE
 		Then the Argument is in passable range
 
-# 	Scenario: Result Success
-# 		Given the service executed successfully
-# 		Then the parameter Data is an Octet string
-# 		* the parameter Qualifier contains an I-Service Device response
+	Scenario: Result Success
+		Given the service executed successfully
+		Then the parameter Data is an Octet string
+		* the parameter Qualifier contains an I-Service Device response
 
-# 	Scenario: Result Fail
-# 		Given the service failed
-# 		Then the parameter ISDUTransportErrorInfo contains error information
-# 		* ISDUTransportErrorInfo has the permitted values NO_COMM, STATE_CONFLICT, ISDU_TIMEOUT, ISDU_NOT_SUPPORTED, VALUE_OUT_OF_RANGE
+	Scenario: Result Fail
+		Given the service failed
+		Then the parameter ISDUTransportErrorInfo contains error information
+		* ISDUTransportErrorInfo has the permitted values NO_COMM, STATE_CONFLICT, ISDU_TIMEOUT, ISDU_NOT_SUPPORTED, VALUE_OUT_OF_RANGE

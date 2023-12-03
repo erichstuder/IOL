@@ -146,6 +146,33 @@ namespace State_machine_of_the_Master_message_handler {
 				transitions->T14();
 				states->state = states->GetOD_7;
 			}
+
+			void DL_ISDUTransport_req(DL_ISDUTransport::Argument_type* Argument) override {
+				(void)Argument;
+				transitions->T15();
+				states->state = states->GetOD_7;
+			}
+
+			void EventFlag_req(EventFlag::Argument_type* Argument) override {
+				(void)Argument;
+				transitions->T16();
+				states->state = states->GetOD_7;
+			}
+
+			void MH_Conf_PREOPERATE() override {
+				transitions->T26();
+				states->state = states->Operate_12;
+			}
+
+			void MH_Conf_INACTIVE() override {
+				transitions->T36();
+				states->state = states->Inactive_0;
+			}
+
+			void MH_Conf_Startup() override {
+				transitions->T37();
+				states->state = states->Startup_2;
+			}
 	};
 
 	class _GetOD_7: public States::State_Base {
@@ -153,19 +180,88 @@ namespace State_machine_of_the_Master_message_handler {
 			using State_Base::State_Base;
 	};
 
-	class _Response_8: public States::State_Base {
+	class _AwaitReply_9: public States::State_Base {
 		public:
 			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				switch(guard) {
+					case Guard::Response_not_OK:
+						transitions->T20();
+						states->state = states->ErrorHandling_10;
+						return;
+					case Guard::No_error:
+						transitions->T23();
+						states->state = states->CheckHandler_11;
+						return;
+					default:
+						return;
+				}
+			}
+
+			void tm_event() override {
+				transitions->T19();
+				states->state = states->ErrorHandling_10;
+			}
+	};
+
+	class _ErrorHandling_10: public States::State_Base {
+		public:
+			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				if(guard == Guard::Retry_equals_MaxRetry) {
+					transitions->T22();
+					states->state = states->Inactive_0;
+				}
+			}
+
+			void tm_event() override {
+				transitions->T21();
+				states->state = states->AwaitReply_9;
+			}
 	};
 
 	class _CheckHandler_11: public States::State_Base {
 		public:
 			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				switch(guard) {
+					case Guard::Not_Idle:
+						transitions->T24();
+						states->state = states->GetOD_7;
+						return;
+					case Guard::Idle:
+						transitions->T25();
+						states->state = states->Preoperate_6;
+						return;
+					default:
+						return;
+				}
+			}
 	};
 
 	class _Operate_12: public States::State_Base {
 		public:
 			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				if(guard == Guard::Tcyc) {
+					transitions->T27();
+					states->state = states->GetPD_13;
+				}
+			}
+
+			void MH_Conf_INACTIVE() override {
+				transitions->T35();
+				states->state = states->Inactive_0;
+			}
+
+			void MH_Conf_Startup() override {
+				transitions->T38();
+				states->state = states->Startup_2;
+			}
 	};
 
 	class _GetPD_13: public States::State_Base {
@@ -178,9 +274,46 @@ namespace State_machine_of_the_Master_message_handler {
 			using State_Base::State_Base;
 	};
 
-	class _Response_15: public States::State_Base {
+	class _AwaitReply_16: public States::State_Base {
 		public:
 			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				switch(guard) {
+					case Guard::Response_not_OK:
+						transitions->T41();
+						states->state = states->ErrorHandling_17;
+						return;
+					case Guard::No_error:
+						transitions->T34();
+						states->state = states->Operate_12;
+						return;
+					default:
+						return;
+				}
+			}
+
+			void tm_event() override {
+				transitions->T40();
+				states->state = states->ErrorHandling_17;
+			}
+	};
+
+	class _ErrorHandling_17: public States::State_Base {
+		public:
+			using State_Base::State_Base;
+
+			void tick(Guard guard) {
+				if(guard == Guard::Retry_equals_MaxRetry) {
+					transitions->T33();
+					states->state = states->Inactive_0;
+				}
+			}
+
+			void tm_event() override {
+				transitions->T32();
+				states->state = states->AwaitReply_16;
+			}
 	};
 
 	States::States(Administration* administration, Transitions_Interface* transitions):
@@ -194,11 +327,19 @@ namespace State_machine_of_the_Master_message_handler {
 		ErrorHandling_5(new _ErrorHandling_5(this, transitions, administration)),
 		Preoperate_6(new _Preoperate_6(this, transitions, administration)),
 		GetOD_7(new _GetOD_7(this, transitions, administration)),
-		Response_8(new _Response_8(this, transitions, administration)),
+
+		Response_8(new _AwaitReply_9(this, transitions, administration)),
+		AwaitReply_9(Response_8), //when entering state 8 go directly to 9 (8 is a pseudo exist)
+
+		ErrorHandling_10(new _ErrorHandling_10(this, transitions, administration)),
 		CheckHandler_11(new _CheckHandler_11(this, transitions, administration)),
 		Operate_12(new _Operate_12(this, transitions, administration)),
 		GetPD_13(new _GetPD_13(this, transitions, administration)),
 		GetOD_14(new _GetOD_14(this, transitions, administration)),
-		Response_15(new _Response_15(this, transitions, administration))
+
+		Response_15(new _AwaitReply_16(this, transitions, administration)),
+		AwaitReply_16(Response_15), //when entering state 15 go directly to 16 (15 is a pseudo exist)
+
+		ErrorHandling_17(new _ErrorHandling_17(this, transitions, administration))
 	{}
 }

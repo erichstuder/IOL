@@ -9,11 +9,11 @@ class EventFlag_mock:
 	public EventFlag_req__Interface
 {
 	public:
-		void EventFlag_ind(EventFlag::Argument_type Argument) override {
+		void EventFlag_ind(EventFlag::Argument_type* Argument) override {
 			(void)Argument;
 		}
 
-		void EventFlag_req(EventFlag::Argument_type Argument) override {
+		void EventFlag_req(EventFlag::Argument_type* Argument) override {
 			(void)Argument;
 		}
 };
@@ -23,12 +23,12 @@ EventFlag_mock eventFlag;
 
 THEN("^\\.ind has Argument: yes$") {
 	EventFlag::Argument_type argument;
-	eventFlag.EventFlag_ind(argument);
+	eventFlag.EventFlag_ind(&argument);
 }
 
 THEN("^\\.req has Argument: yes$") {
 	EventFlag::Argument_type argument;
-	eventFlag.EventFlag_req(argument);
+	eventFlag.EventFlag_req(&argument);
 }
 
 GIVEN("^Flag is TRUE or FALSE$") {
@@ -41,6 +41,6 @@ GIVEN("^Flag is TRUE or FALSE$") {
 THEN("^the Argument is passable range$") {
 	EventFlag::Argument_type argument;
 	argument.Flag = true;
-	eventFlag.EventFlag_ind(argument);
-	eventFlag.EventFlag_req(argument);
+	eventFlag.EventFlag_ind(&argument);
+	eventFlag.EventFlag_req(&argument);
 }

@@ -63,6 +63,8 @@ namespace State_machine_of_the_Master_message_handler {
 			virtual void T37() = 0;
 			virtual void T38() = 0;
 			virtual void T39() = 0;
+			virtual void T40() = 0; //missing in the specification
+			virtual void T41() = 0; //missing in the specification
 
 		// 	Administration* const administration;
 		// 	OD_handler_for_Device* const OD_handler;

@@ -29,11 +29,16 @@ namespace State_machine_of_the_Master_message_handler {
 					void MH_Conf_COMx() override {}
 					void MH_Conf_PREOPERATE() override {}
 					void MH_Conf_OPERATE() override {}
+					void MH_Conf_INACTIVE() override {}
+					void MH_Conf_Startup() override {}
 
 					void DL_Read_req(DL_Read::Argument_type* Argument) override { (void)Argument; }
 					void DL_Write_req(DL_Write::Argument_type* Argument) override { (void)Argument; }
 					void DL_ReadParam_req(DL_ReadParam::Argument_type* Argument) override { (void)Argument; }
-					void DL_WriteParam_req(DL_WriteParam::Argument_type* Argument) override { (void)Argument; };
+					void DL_WriteParam_req(DL_WriteParam::Argument_type* Argument) override { (void)Argument; }
+					void DL_ISDUTransport_req(DL_ISDUTransport::Argument_type* Argument) override { (void)Argument; }
+
+					void EventFlag_req(EventFlag::Argument_type* Argument) override { (void)Argument; }
 
 				protected:
 					States* states;
@@ -50,11 +55,15 @@ namespace State_machine_of_the_Master_message_handler {
 			State_Base* const Preoperate_6;
 			State_Base* const GetOD_7;
 			State_Base* const Response_8;
+			State_Base* const AwaitReply_9;
+			State_Base* const ErrorHandling_10;
 			State_Base* const CheckHandler_11;
 			State_Base* const Operate_12;
 			State_Base* const GetPD_13;
 			State_Base* const GetOD_14;
 			State_Base* const Response_15;
+			State_Base* const AwaitReply_16;
+			State_Base* const ErrorHandling_17;
 			State_Base* state;
 	};
 }

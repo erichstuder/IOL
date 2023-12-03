@@ -50,6 +50,8 @@ class Transitions_mock: public Transitions_Interface {
 		void T37() override { transition_number = 37; }
 		void T38() override { transition_number = 38; }
 		void T39() override { transition_number = 39; }
+		void T40() override { transition_number = 40; }
+		void T41() override { transition_number = 41; }
 
 		unsigned int transition_number;
 
@@ -99,6 +101,12 @@ GIVEN("^State is (.+)$") {
 	else if(data == "Response_8") {
 		states.state = states.Response_8;
 	}
+	else if(data == "AwaitReply_9") {
+		states.state = states.AwaitReply_9;
+	}
+	else if(data == "ErrorHandling_10") {
+		states.state = states.ErrorHandling_10;
+	}
 	else if(data == "CheckHandler_11") {
 		states.state = states.CheckHandler_11;
 	}
@@ -113,6 +121,12 @@ GIVEN("^State is (.+)$") {
 	}
 	else if(data == "Response_15") {
 		states.state = states.Response_15;
+	}
+	else if(data == "AwaitReply_16") {
+		states.state = states.AwaitReply_16;
+	}
+	else if(data == "ErrorHandling_17") {
+		states.state = states.ErrorHandling_17;
 	}
 	else {
 		FAIL() << "unknown State";
@@ -143,6 +157,15 @@ GIVEN("^Guard is (.+)$") {
 	}
 	else if(data == "Retry = MaxRetry") {
 		guard = State_Interface::Guard::Retry_equals_MaxRetry;
+	}
+	else if(data == "Not Idle") {
+		guard = State_Interface::Guard::Not_Idle;
+	}
+	else if(data == "Idle") {
+		guard = State_Interface::Guard::Idle;
+	}
+	else if(data == "Tcyc") {
+		guard = State_Interface::Guard::Tcyc;
 	}
 	else {
 		FAIL() << "unknown Guard";
@@ -179,8 +202,35 @@ static void assert_state_and_transition(const string expected_state) {
 	else if(expected_state == "GetOD_7") {
 		EXPECT_EQ(states.state, states.GetOD_7);
 	}
+	else if(expected_state == "Response_8") {
+		EXPECT_EQ(states.state, states.Response_8);
+	}
+	else if(expected_state == "AwaitReply_9") {
+		EXPECT_EQ(states.state, states.AwaitReply_9);
+	}
+	else if(expected_state == "ErrorHandling_10") {
+		EXPECT_EQ(states.state, states.ErrorHandling_10);
+	}
+	else if(expected_state == "CheckHandler_11") {
+		EXPECT_EQ(states.state, states.CheckHandler_11);
+	}
 	else if(expected_state == "Operate_12") {
 		EXPECT_EQ(states.state, states.Operate_12);
+	}
+	else if(expected_state == "GetPD_13") {
+		EXPECT_EQ(states.state, states.GetPD_13);
+	}
+	else if(expected_state == "GetOD_14") {
+		EXPECT_EQ(states.state, states.	GetOD_14);
+	}
+	else if(expected_state == "Response_15") {
+		EXPECT_EQ(states.state, states.Response_15);
+	}
+	else if(expected_state == "AwaitReply_16") {
+		EXPECT_EQ(states.state, states.AwaitReply_16);
+	}
+	else if(expected_state == "ErrorHandling_17") {
+		EXPECT_EQ(states.state, states.ErrorHandling_17);
 	}
 	else {
 		FAIL() << "unknown Result State";
@@ -204,10 +254,19 @@ THEN("^Result State is (.+)$") {
 	else if(event == "MH_Conf_OPERATE") {
 		states.state->MH_Conf_OPERATE();
 	}
+	else if(event == "MH_Conf_INACTIVE") {
+		states.state->MH_Conf_INACTIVE();
+	}
+	else if(event == "MH_Conf_Startup") {
+		states.state->MH_Conf_Startup();
+	}
 	else if(event == "tm(TM-sequence)") {
 		states.state->tm_event();
 	}
 	else if(event == "tm(Tinitcyc)") {
+		states.state->tm_event();
+	}
+	else if(event == "tm(Tcyc)") {
 		states.state->tm_event();
 	}
 	else if(event == "DL_Read") {
@@ -225,6 +284,14 @@ THEN("^Result State is (.+)$") {
 	else if(event == "DL_WriteParam") {
 		DL_WriteParam::Argument_type Argument;
 		states.state->DL_WriteParam_req(&Argument);
+	}
+	else if(event == "DL_ISDUTransport") {
+		DL_ISDUTransport::Argument_type Argument;
+		states.state->DL_ISDUTransport_req(&Argument);
+	}
+	else if(event == "EventFlag") {
+		EventFlag::Argument_type Argument;
+		states.state->EventFlag_req(&Argument);
 	}
 	else {
 		FAIL() << "unknown event";

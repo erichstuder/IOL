@@ -90,10 +90,10 @@ THEN("^the Argument is in passable range$") {
 }
 
 THEN("^ErrorInfo contains the error information NO_COMM and STATE_CONFLICT$") {
-	ErrorInfo_type error_info;
-	(void)error_info;
-	error_info = ErrorInfo_type::SUCCESS;
-	error_info = ErrorInfo_type::NO_COMM;
-	error_info = ErrorInfo_type::STATE_CONFLICT;
+	Result_type result_tpye;
+	(void)result_tpye;
+	result_tpye.ErrorInfo = ErrorInfo_type::SUCCESS;
+	result_tpye.ErrorInfo = ErrorInfo_type::NO_COMM;
+	result_tpye.ErrorInfo = ErrorInfo_type::STATE_CONFLICT;
 	EXPECT_EQ((int)ErrorInfo_type::_cnt, 3);
 }

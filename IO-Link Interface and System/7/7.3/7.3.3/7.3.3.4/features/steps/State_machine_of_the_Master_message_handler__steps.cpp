@@ -246,7 +246,7 @@ THEN("^Result State is (.+)$") {
 		states.state->tick(guard);
 	}
 	else if(event == "MH_Conf_COMx") {
-		states.state->MH_Conf_COMx();
+		states.state->MH_Conf_COMx(COMx::COM1);
 	}
 	else if(event == "MH_Conf_PREOPERATE") {
 		states.state->MH_Conf_PREOPERATE();
@@ -297,4 +297,12 @@ THEN("^Result State is (.+)$") {
 		FAIL() << "unknown event";
 	}
 	assert_state_and_transition(expected_state);
+}
+
+THEN("^MH_Conf_COMx accepts a transmission rate of COM3, COM2, COM1$") {
+	States::State_Base state(NULL, NULL, NULL);
+	state.MH_Conf_COMx(COMx::COM1);
+	state.MH_Conf_COMx(COMx::COM2);
+	state.MH_Conf_COMx(COMx::COM3);
+	(void)state;
 }

@@ -26,7 +26,7 @@ namespace State_machine_of_the_Master_message_handler {
 
 					void tm_event() override {}
 
-					void MH_Conf_COMx() override {}
+					void MH_Conf_COMx(COMx com_mode) override { (void)com_mode; }
 					void MH_Conf_PREOPERATE() override {}
 					void MH_Conf_OPERATE() override {}
 					void MH_Conf_INACTIVE() override {}

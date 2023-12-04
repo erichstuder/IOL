@@ -7,6 +7,7 @@
 #include "DL_WriteParam_req.h"
 #include "DL_ISDUTransport_req.h"
 #include "EventFlag_req.h"
+#include "COMx.h"
 
 namespace State_machine_of_the_Master_message_handler {
 	class State_Interface:
@@ -35,7 +36,7 @@ namespace State_machine_of_the_Master_message_handler {
 
 			void tm_event() override = 0;
 
-			virtual void MH_Conf_COMx() = 0;
+			virtual void MH_Conf_COMx(COMx com_mode) = 0;
 			virtual void MH_Conf_PREOPERATE() = 0;
 			virtual void MH_Conf_OPERATE() = 0;
 			virtual void MH_Conf_INACTIVE() = 0;

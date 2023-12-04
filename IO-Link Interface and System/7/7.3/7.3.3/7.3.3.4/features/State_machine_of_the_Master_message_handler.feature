@@ -69,3 +69,7 @@ Feature: State machine of the Master message handler
 
 		| ErrorHandling_17 | tm(Tcyc)            | Retry < MaxRetry | T32        | AwaitReply_16    |
 		| ErrorHandling_17 | -                   | Retry = MaxRetry | T33        | Inactive_0      |
+
+
+	Scenario: MH_Conf_COMx
+		Then MH_Conf_COMx accepts a transmission rate of COM3, COM2, COM1

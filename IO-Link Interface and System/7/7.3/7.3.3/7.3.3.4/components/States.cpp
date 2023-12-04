@@ -3,35 +3,12 @@
 #include <cstddef>
 
 namespace State_machine_of_the_Master_message_handler {
-
-
-
-	// void States::State_Base::PL_Transfer_req(uint8_t Data) {
-	// 	if(states->state == states->GetMessage_2) {
-	// 		transitions->T3();
-	// 		states->state = states->GetMessage_2;
-	// 	}
-	// 	(void)Data; //TODO: was soll mit den Daten geschehen?
-	// }
-
-	// PL_Transfer::Status States::State_Base::PL_Transfer_ind(uint8_t Data) {
-	// 	if(states->state == states->Idle_1) {
-	// 		transitions->T2();
-	// 		states->state = states->GetMessage_2;
-	// 	}
-	// 	(void)Data; //TODO: was soll mit den Daten geschehen?
-	// 	return PL_Transfer::Status::SUCCESS; //TODO: wie kommt der Rückgabewert zustande?
-	// }
-
-	// void States::State_Base::PL_Transfer_rsp() {
-	// 	//PL->PL_Transfer_rsp();
-	// }
-
 	class _Inactive_0: public States::State_Base {
 		public:
 			using State_Base::State_Base;
 
-			void MH_Conf_COMx() override {
+			void MH_Conf_COMx(COMx com_mode) override {
+				(void)com_mode;
 				transitions->T1();
 				states->state = states->AwaitReply_1;
 			}

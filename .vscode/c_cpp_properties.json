@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/tmp/IOLS/cucumber-cpp/include",
+                "/tmp/IOLS/cucumber-cpp/build/src",
+                "/tmp/IOLS/googletest/googletest/include",
+                "/tmp/IOLS/googletest/googlemock/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

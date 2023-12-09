@@ -4,5 +4,5 @@
 
 class DL_ReadParam_cnf__Interface {
 	public:
-		vi rtual DL_ReadParam::Result_type DL_ReadParam_cnf() = 0;
+		virtual DL_ReadParam::Result_type DL_ReadParam_cnf() = 0;
 };

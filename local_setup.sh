@@ -4,7 +4,7 @@ cd /tmp
 mkdir -p IOLS
 cd IOLS
 
-# get cucumber-cpp headers
+# get cucumber-cpp headers (for code completion only)
 git clone https://github.com/cucumber/cucumber-cpp.git
 cd cucumber-cpp
 git pull
@@ -15,7 +15,7 @@ cmake -E make_directory build
 cmake -E chdir build cmake -DCUKE_ENABLE_EXAMPLES=on -DCMAKE_INSTALL_PREFIX=${prefix} ..
 cd ..
 
-# get gtest headers
+# get gtest headers (for code completion only)
 git clone https://github.com/google/googletest.git
 cd googletest
 git pull

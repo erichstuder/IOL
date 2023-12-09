@@ -21,19 +21,19 @@ cmake_command='
 cuke_execute='
 	feature_path=$(find -P ../.. -name ${feature}.feature)
 	./${executable} >/dev/null &
-	cucumber "${feature_path}"'
+	cucumber -S "${feature_path}"'
 
 
 if [[ -z "${feature}" ]]
 then
-	cuke_command_variable='
+	cuke_command='
 	for executable in steps/*; do
 		echo executable: ${executable}
 		feature=${executable:6:-7}
 		'${cuke_execute}'
 	done'
 else
-	cuke_command_variable='
+	cuke_command='
 	feature='${feature}'
 	executable=steps/${feature}__steps
 	'${cuke_execute}
@@ -51,4 +51,4 @@ docker run \
 	--volume "${PWD}":${VOLUME_DIR} \
 	--workdir "${VOLUME_DIR}${BUILD_DIR}" \
 	-i${colored} $TAG \
-	bash -c "${cmake_command} ${cuke_command_variable}"
+	bash -c "${cmake_command} ${cuke_command}"

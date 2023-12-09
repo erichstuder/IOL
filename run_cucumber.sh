@@ -1,10 +1,11 @@
 #!/bin/bash
 
-while getopts c:f: flag
+while getopts c:f:C flag
 do
     case "${flag}" in
         c) cmake_params=${OPTARG};;
         f) feature=${OPTARG};;
+	C) colored=t;;
     esac
 done
 
@@ -49,5 +50,5 @@ docker run \
 	--name cucumber_$(date +%s) \
 	--volume "${PWD}":${VOLUME_DIR} \
 	--workdir "${VOLUME_DIR}${BUILD_DIR}" \
-	-it $TAG \
+	-i${colored} $TAG \
 	bash -c "${cmake_command} ${cuke_command_variable}"

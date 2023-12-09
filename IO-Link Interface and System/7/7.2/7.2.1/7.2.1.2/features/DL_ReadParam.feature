@@ -6,7 +6,7 @@ Feature: DL_ReadParam
 
 	Examples:
 		| primitive | Argument | Result |
-		| .req      | yes      | yes    |
+		| .req      | yes      | no     |
 		| .cnf      | no       | yes    |
 		| .ind      | yes      | no     |
 		| .rsp      | no       | yes    |

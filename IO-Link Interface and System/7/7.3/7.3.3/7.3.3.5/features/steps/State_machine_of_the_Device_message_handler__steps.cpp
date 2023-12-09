@@ -20,7 +20,7 @@ class Transitions_mock: public Transitions_Interface {
 		void T2() override { transition_number = 2; }
 		void T3() override { transition_number = 3; }
 		void T4() override { transition_number = 4; }
-		void T5() override { transition_number = 5; }
+		void T5() override { transition_number = 6; }
 		void T6() override { transition_number = 6; }
 		void T7() override { transition_number = 7; }
 		void T8() override { transition_number = 8; }

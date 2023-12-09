@@ -1,39 +1,42 @@
 #!/bin/bash
 
-# make sure the tag is unique
+while getopts c:f: flag
+do
+    case "${flag}" in
+        c) cmake_params=${OPTARG};;
+        f) feature=${OPTARG};;
+    esac
+done
+
+# make sure the TAG is unique by using PWD
 TAG=$(echo ${PWD:1} | tr '[:upper:]' '[:lower:]' | tr -d '[:space:]')
 VOLUME_DIR=/usr/software
 
 cmake_command='
 	set -e
 	cmake '${VOLUME_DIR}'
-	cmake --build . --parallel'
+	cmake --build . '${cmake_params}
 
 cuke_execute='
-	feature_path=$(find -P ../.. -name ${feature_file})
+	feature_path=$(find -P ../.. -name ${feature}.feature)
 	./${executable} >/dev/null &
 	cucumber "${feature_path}"'
 
 
-if [ $# -eq 0 ]
+if [[ -z "${feature}" ]]
 then
 	cuke_command_variable='
 	for executable in steps/*; do
 		echo executable: ${executable}
-		feature_file=${executable:6:-7}.feature
+		feature=${executable:6:-7}
 		'${cuke_execute}'
 	done'
-fi
-
-if [ $# -eq 1 ]
-then
+else
 	cuke_command_variable='
-	feature_file='$1'
-	executable=steps/${feature_file::-8}__steps
-	'${cuke_execute}'
-	'
+	feature='${feature}'
+	executable=steps/${feature}__steps
+	'${cuke_execute}
 fi
-
 
 
 echo "building container, please wait (the first time this may take several minutes) ..."
